@@ -173,7 +173,7 @@ const templete =[
             type:'separator'
           },
           {
-            label: 'sobre',
+            label: 'Imei',
             click: () => aboutwindow ()
           } 
         ]

@@ -7,7 +7,7 @@
     <!--Bootstrap.css-->
     <link rel="stylesheet" href="../public/css/bootstrap.min.css">
     <!--CSS personalizado-->
-    <link rel="stylesheet" href="../public/css/style.css">
+    <link rel="stylesheet" href="../public/css/style1.css">
     
     <!--Impedir a execução de scripts externos ou não autorizados-->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
@@ -15,12 +15,16 @@
 </head>
 <body>
     <div class="container">
-        <p>Sistema para Emissão de OS</p>
-        <p>Autor: Thiago Sanches</p>
-        <p>Sob a Licença MIT</p>
+        <h2>Teste de IMEI</h2>
+        <div class="form-group">
+            <label for="imei">Digite o número do IMEI:</label>
+            <input type="text" id="imei" placeholder="Exemplo: 123456789012345">
+        </div>
+        <button onclick="validarImei()">Verificar IMEI</button>
+    
+        <div id="result" class="result"></div>
     </div>
-    <!--Bootstrap-->
-    <script src="../public/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+    
+    <script src="scriptsobre.js"></script>
+    </body>
+    </html>
