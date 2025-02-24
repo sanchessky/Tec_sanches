@@ -1,0 +1,64 @@
+Análise de Requisitos para Sistema de Gestão de Assistência Técnica e Serviço
+
+
+
+Abaixo está uma análise de requisitos dividida em categorias fundamentais para o desenvolvimento de um Sistema de Gestão de Assistência Técnica e Serviço
+
+
+
+Requisitos Funcionais
+
+ Cadastro de Clientes
+- Descrição: O sistema deve permitir o cadastro de clientes com informações básicas e de contato.
+- Funcionalidades:
+  - Campos obrigatórios: Nome completo, CPF/CNPJ, telefone, e-mail e endereço.
+  - Histórico de atendimento: O sistema deve armazenar o histórico de ordens de serviço (OS) para cada cliente.
+  - Gerenciamento de dados: Possibilidade de editar e excluir registros de clientes.
+
+ Emissão de Ordem de Serviço (OS)
+   Descrição: O sistema deve permitir a criação e o acompanhamento das ordens de serviço.
+
+  - Geração automática do número da OS com base em um contador único.
+  - Atribuição de dados do cliente: O sistema deve puxar automaticamente as informações do cliente ao criar a OS.
+  - Informações do equipamento: Modelos, números de série, e problemas relatados.
+  - Diagnóstico e peças necessárias: O técnico pode registrar o diagnóstico do problema e a lista de peças necessárias para o reparo.
+  - Status da OS: O status da OS deve ser alterado conforme o andamento (Aberta, Em andamento, Aguardando peças, Finalizada, Cancelada).
+  - Prazo de conclusão: Inserção de prazo estimado para o reparo.
+  - Termos de serviço: Inclusão de termos e condições que o cliente deve aprovar antes de iniciar o serviço.
+
+ Emissão de Relatórios
+- Descrição: O sistema deve gerar relatórios detalhados para análise de desempenho, controle financeiro e acompanhamento de OS.
+- Funcionalidades
+  - Relatórios de clientes: Relatório com dados sobre os clientes cadastrados e os serviços realizados.
+  - Relatórios de OS: Relatório com status das OS (abertas, em andamento, concluídas e canceladas).
+  - Relatórios financeiros: Relatório de receitas (faturamento), despesas (custos com peças) e lucros.
+  - Relatórios de estoque: Relatório sobre a quantidade de peças no estoque e movimentação.
+
+
+
+Requisitos Não Funcionais
+
+ Usabilidade
+- Descrição: O sistema deve ser intuitivo, de fácil navegação e permitir que os usuários possam realizar as tarefas com eficiência.
+- Requisitos:
+  - Interface simples e limpa, com menus e funcionalidades bem definidas.
+  - Filtros de pesquisa para facilitar a localização de clientes, ordens de serviço e peças.
+  - Suporte a múltiplos idiomas (se necessário).
+
+
+Segurança
+- Descrição: O sistema deve garantir a proteção dos dados sensíveis dos clientes e da empresa, prevenindo acessos não autorizados.
+- Requisitos:
+  - Autenticação de usuários com login e senha (ou autenticação multifatorial, se necessário).
+  - Controle de permissões de acesso (administração, técnicos, atendentes, etc.).
+  - Criptografia de dados sensíveis, como informações de clientes e transações financeiras.
+  - Backup regular e recuperação de dados em caso de falha.
+
+Estalabilidade
+- Descrição: O sistema deve ser estavel, ou seja, deve ser capaz de crescer conforme o número de clientes e ordens de serviço aumenta.
+- Requisitos:
+  - Suporte a grandes volumes de dados (clientes, ordens de serviço, peças, etc.).
+  - Capacidade de aumentar a capacidade de armazenamento e processamento conforme a demanda cresce.
+
+
+ 
