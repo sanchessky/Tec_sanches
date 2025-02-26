@@ -4,7 +4,9 @@
 
 //----------------------------------------------------------------------
 //Biblioteca do electron
-const { app, BrowserWindow, nativeTheme, Menu, shell } = require('electron')
+const { app, BrowserWindow, nativeTheme, Menu, ipcMain } = require('electron')
+
+const path = require('node:path')
 
 //----------------------------------------------------------------------
 //janela principal
@@ -19,12 +21,24 @@ const createWindow = () => {
     resizable: false, /* remover a ação de maximizar a tela */
     /*autoHideMenuBar: true,  remover a ação de menu tela */
     /*titleBarStyle: 'hidden'  remover a a barra de titulo e menu */
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js') 
+    }
   })
 
   // menu personalizado
   Menu.setApplicationMenu(Menu.buildFromTemplate(templete))
 
   win.loadFile('./src/views/index.html')
+  ipcMain.on('client-window', ()=> {
+    clientwindow()
+  })
+  ipcMain.on('os-window', ()=> {
+    oswindow()
+  })
+  ipcMain.on('imei-window', ()=> {
+    imeiwindow()
+  })
 }
 //Fechamento da janela principal
 //--------------------------------------------------------------------------------------
@@ -40,24 +54,58 @@ const aboutwindow = () => {
     about.loadFile('./src/views/sobre.html')
 }
 //-------------------------------------------------------------------------------------
-// Janela Secundaria
-
-const childwindow = () => {
-    const father = BrowserWindow.getFocusedWindow()
-    if(father){
-      const child = new BrowserWindow ({
-        width: 640,
-        height:480,
-        icon:"./src/public/img/xadrez.png",
-        autoHideMenuBar: true,
-        resizable: false,
-        parent: father,
-        modal: true /* essa função obriga o usuario focar em uma aplicação */
-    })
-    child.loadFile('./src/views/child.html')
+// Janela clientes
+let client
+function clientwindow () {
+    nativeTheme.themeSource = 'dark'
+    const main = BrowserWindow.getFocusedWindow()
+    if(main) {
+        client = new BrowserWindow({
+            width: 420,
+            height: 320,
+            autoHideMenuBar: true,
+            resizable: false,
+            parent: main,
+            modal: true
+        })
     }
+    client.loadFile('./src/views/cliente.html')   
 }
-
+// Janela OS
+let os
+function oswindow() {
+    nativeTheme.themeSource = 'dark'
+    const main = BrowserWindow.getFocusedWindow()
+    if(main) {
+        os = new BrowserWindow({
+            width: 420,
+            height: 320,
+            autoHideMenuBar: true,
+            resizable: false,
+            parent: main,
+            modal: true
+        })
+    }
+    os.loadFile('./src/views/os.html')   
+}
+// Janela imei
+let imei
+function imeiwindow() {
+    nativeTheme.themeSource = 'dark'
+    const main = BrowserWindow.getFocusedWindow()
+    if(main) {
+        imei = new BrowserWindow({
+            width: 420,
+            height: 320,
+            autoHideMenuBar: true,
+            resizable: false,
+            parent: main,
+            modal: true
+        })
+    }
+    imei.loadFile('./src/views/imei.html')   
+}
+// janela imei fim
 //--------------------------------------------------------------------------------------
 // iniciar a aplicação
 app.whenReady().then(() => {
@@ -87,10 +135,16 @@ const templete =[
     label:'Cadastrar',
     submenu: [
         {
-          label: 'Clientes'
+          label: 'Clientes',
+          click: () => clientwindow()
         },
         {
-            label: 'Os'
+            label: 'Os',
+            click: () => oswindow()
+        },
+        {
+          label: 'Imei',
+          click: () => imeiwindow()
         },
         {
           type:'separator' 
@@ -166,14 +220,14 @@ const templete =[
         label: 'Ajuda',
         submenu: [
           {
-            label: 'Docs',
-            click: () => shell.openExternal('https://github.com/sanchessky/Desenvolvimento_Desktop')
+            label: 'Documentação',
+            click: () => shell.openExternal('https://github.com/sanchessky/Tec_sanches')
           },
           {
             type:'separator'
           },
           {
-            label: 'Imei',
+            label: 'Imei1',
             click: () => aboutwindow ()
           } 
         ]
