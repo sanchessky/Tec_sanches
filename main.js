@@ -61,15 +61,16 @@ function clientwindow () {
     const main = BrowserWindow.getFocusedWindow()
     if(main) {
         client = new BrowserWindow({
-            width: 420,
-            height: 320,
+            width: 1010,
+            height: 720,
             autoHideMenuBar: true,
             resizable: false,
             parent: main,
             modal: true
         })
     }
-    client.loadFile('./src/views/cliente.html')   
+    client.loadFile('./src/views/cliente.html')
+    client.center()    
 }
 // Janela OS
 let os
@@ -78,15 +79,16 @@ function oswindow() {
     const main = BrowserWindow.getFocusedWindow()
     if(main) {
         os = new BrowserWindow({
-            width: 420,
-            height: 320,
+            width: 1010,
+            height: 720,
             autoHideMenuBar: true,
             resizable: false,
             parent: main,
             modal: true
         })
     }
-    os.loadFile('./src/views/os.html')   
+    os.loadFile('./src/views/os.html') 
+    os.center()   
 }
 // Janela imei
 let imei
@@ -95,8 +97,8 @@ function imeiwindow() {
     const main = BrowserWindow.getFocusedWindow()
     if(main) {
         imei = new BrowserWindow({
-            width: 420,
-            height: 320,
+            width: 1010,
+            height: 720,
             autoHideMenuBar: true,
             resizable: false,
             parent: main,
@@ -104,6 +106,7 @@ function imeiwindow() {
         })
     }
     imei.loadFile('./src/views/imei.html')   
+    imei.center() 
 }
 // janela imei fim
 //--------------------------------------------------------------------------------------
