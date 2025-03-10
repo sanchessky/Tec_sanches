@@ -165,7 +165,10 @@ const templete =[
       label:'Relatorios',
       submenu: [
           {
-              label: 'Cliente',
+              label: 'Cliente'
+          },
+          {
+              type:'separator'
           },
           {
               label: 'OS Aberta',
@@ -230,7 +233,7 @@ const templete =[
             type:'separator'
           },
           {
-            label: 'Imei1',
+            label: 'Imei',
             click: () => aboutwindow ()
           } 
         ]
