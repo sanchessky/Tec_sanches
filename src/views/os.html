@@ -13,7 +13,58 @@
 </head>
 <body>
     <div class="container">
-        <h1>OS</h1>
+        <div class="container">
+            <form id="frmOS" class="mt-2 row g-3">
+                <!--buscar cliente-->
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="searchClient" placeholder="Nome do Cliente ou Ordem de Serviço" maxlength="30" spellcheck="false"  >
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-dark" id="btnRead" onclick="searchOS()" >Buscar</button>
+                </div>
+                <hr class="mt-4 border border-primary border -1" >
+                <div class="col-md-3">
+                    <label for="inputosClient" class="form-label">Ordem de Serviço</label>
+                    <input type="text" class="form-control" id="inputenderecoClient" placeholder="Número da OS" required maxlength="30">
+                </div>
+                <div class="col-md-3">
+                    <label for="inputdata_servico" class="form-label">Data da Ordem de Serviço</label>
+                    <input type="date" class="form-control" id="inputdata_servico" required>
+                </div>
+                <div class="col-md-3">
+                    <label for="inputstatus" class="form-label">Status</label>
+                    <select class="form-select" id="inputstatus" required>
+                        <option value="pendente">Pendente</option>
+                        <option value="em_andamento">Em Andamento</option>
+                        <option value="concluido">Concluído</option>
+                        <option value="cancelado">Cancelado</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="inputdata_servico" class="form-label">Data da Finalização Serviço</label>
+                    <input type="date" class="form-control" id="inputdata_servico">
+                </div>
+              
+                <div class="col-md-6">
+                    <label for="inputnomeClient" class="form-label">Nome do Cliente</label>
+                    <input type="text" class="form-control" id="inputnomeClient" placeholder="Cliente" required maxlength="30">
+                </div>
+                <div class="col-md-3">
+                    <label for="inputresponsavel" class="form-label">Responsável pelo Serviço</label>
+                    <input type="text" class="form-control" id="inputresponsavel" placeholder="Nome do responsável" required maxlength="30">
+                </div>
+    
+                <div class="md-5">
+                    <label for="inputservico" class="form-label">Descrição do Serviço</label>
+                    <textarea class="form-control" id="servico" rows="3" placeholder="Descrição detalhada do serviço" required></textarea>
+                </div>
+                <div class="md-3">
+                    <label for="inputobservacao" class="form-label">Observações</label>
+                    <textarea class="form-control" id="inputobservacao" rows="5" placeholder="Observações adicionais"></textarea>
+                </div>
+    
+                <button type="submit" class="btn btn-success">Gerar Ordem de Serviço</button>
+            </form>
     </div>
 
      <!-- Bootstrap -->

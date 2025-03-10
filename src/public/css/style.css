@@ -19,3 +19,11 @@ footer p {
     color: #ffffff;
     padding: 7px;
 }
+#btnReset {
+    width: 48px;
+    height: 48px;
+    background-image: url('../img/telephone.png');
+    border: none;
+    cursor: pointer; 
+    margin-left: 10px;
+ }
