@@ -16,26 +16,28 @@
         <div class="container">
             <form id="frmOS" class="mt-2 row g-3">
                 <!--buscar cliente-->
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <input type="text" class="form-control" id="searchClient" placeholder="Nome do Cliente ou Ordem de Serviço" maxlength="30" spellcheck="false"  >
                 </div>
                 <div class="col-md-4">
                     <button type="button" class="btn btn-dark" id="btnRead" onclick="searchOS()" >Buscar</button>
+                </div>
+                <div class="col-md-3">
+                    <label for="inputdata_servico" class="form-label">Data da Ordem de Serviço</label>
+                    <input type="date" class="form-control" id="inputdata_servico" required>
                 </div>
                 <hr class="mt-4 border border-primary border -1" >
                 <div class="col-md-3">
                     <label for="inputosClient" class="form-label">Ordem de Serviço</label>
                     <input type="text" class="form-control" id="inputenderecoClient" placeholder="Número da OS" required maxlength="30">
                 </div>
-                <div class="col-md-3">
-                    <label for="inputdata_servico" class="form-label">Data da Ordem de Serviço</label>
-                    <input type="date" class="form-control" id="inputdata_servico" required>
-                </div>
+                
                 <div class="col-md-3">
                     <label for="inputstatus" class="form-label">Status</label>
                     <select class="form-select" id="inputstatus" required>
                         <option value="pendente">Pendente</option>
                         <option value="em_andamento">Em Andamento</option>
+                        <option value="concluido">Aguardando Peças</option>
                         <option value="concluido">Concluído</option>
                         <option value="cancelado">Cancelado</option>
                     </select>
@@ -44,16 +46,24 @@
                     <label for="inputdata_servico" class="form-label">Data da Finalização Serviço</label>
                     <input type="date" class="form-control" id="inputdata_servico">
                 </div>
-              
-                <div class="col-md-6">
-                    <label for="inputnomeClient" class="form-label">Nome do Cliente</label>
-                    <input type="text" class="form-control" id="inputnomeClient" placeholder="Cliente" required maxlength="30">
+
+                
+                <div class="col-md-3">
+                    <label for="inputmodel" class="form-label">Modelo do Smartphone</label>
+                    <input type="text" class="form-control" id="inputmodel" placeholder="Modelo do Smartphone" required maxlength="30">
                 </div>
                 <div class="col-md-3">
-                    <label for="inputresponsavel" class="form-label">Responsável pelo Serviço</label>
-                    <input type="text" class="form-control" id="inputresponsavel" placeholder="Nome do responsável" required maxlength="30">
+                    <label for="inputcor" class="form-label">Cor Do Celeular</label>
+                    <input type="text" class="form-control" id="inputcor" placeholder="Cor Do Celeular" required maxlength="30">
                 </div>
-    
+                <div class="col-md-3">
+                    <label for="inputresponsavel" class="form-label">Técnico Responsavel</label>
+                    <input type="text" class="form-control" id="inputresponsavel" placeholder="Técnico Responsavel" required maxlength="30">
+                </div>
+                <div class="col-md-3">
+                    <label for="inputimeicell" class="form-label">Imei Do Celular</label>
+                    <input type="text" class="form-control" id="inputimeicell" placeholder="Imei Do Celular" required maxlength="15">
+                </div>
                 <div class="md-5">
                     <label for="inputservico" class="form-label">Descrição do Serviço</label>
                     <textarea class="form-control" id="servico" rows="3" placeholder="Descrição detalhada do serviço" required></textarea>
