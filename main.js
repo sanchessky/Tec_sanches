@@ -146,10 +146,6 @@ const templete =[
             click: () => oswindow()
         },
         {
-          label: 'Imei',
-          click: () => imeiwindow()
-        },
-        {
           type:'separator' 
         },
         {
@@ -225,15 +221,9 @@ const templete =[
     {
         label: 'Ajuda',
         submenu: [
+        
           {
-            label: 'Documentação',
-            click: () => shell.openExternal('https://github.com/sanchessky/Tec_sanches')
-          },
-          {
-            type:'separator'
-          },
-          {
-            label: 'Imei',
+            label: 'Sobre',
             click: () => aboutwindow ()
           } 
         ]
