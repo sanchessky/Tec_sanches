@@ -13,7 +13,13 @@ function os(){
     //console.log("Teste de botão os")
     api.oswindow()
 }
-function imei(){
-    //console.log("Teste de botão os")
-    api.imeiwindow()
-}
+
+api.dbStatus((event, message) => {
+    //teste do recebimento da mensagem do main
+    console.log(message)
+    if (message === "conectado") {
+        document.getElementById('statusdb').src = "../public/img/dbon.png"
+    } else {
+        document.getElementById('statusdb').src = "../public/img/dboff.png"
+    }
+})
