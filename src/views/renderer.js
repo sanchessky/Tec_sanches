@@ -1,19 +1,17 @@
-
-
 /**
  * Processo de renderização
  * Tela Principal
  */
-console.log("Processo de Renderização")
-function client(){
+//console.log("Processo de Renderização")
+function client() {
     //console.log("Teste do botão cliente")
-    api.clientwindow()
+    api.clientWindow()
 }
-function os(){
+function os() {
     //console.log("Teste de botão os")
-    api.oswindow()
+    api.osWindow()
 }
-
+// troca do icone banco de dados (usando a api do preload.js)
 api.dbStatus((event, message) => {
     //teste do recebimento da mensagem do main
     console.log(message)
