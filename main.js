@@ -298,9 +298,22 @@ async function relatiorioClientes() {
     try {
         // consultar o banco de daods e obter a listagem de clientes cadastrados por ordem alfabética
         const clientes = await clientModel.find().sort({ nomeCliente: 1 })
+        // ´- portrait | l - landscape | mm e a4 (folha)
         const doc = new jsPDF('p', 'mm', 'a4')
+        // inserir a data atual no relatorio
+        // Definir o tamanho da fonte
+        const dataAtual = new Date().toLocaleDateString('pt-BR')
         doc.setFontSize(16)
-        doc.text("Relatório de clientes", 14,20)
+        doc.text(`Data: ${dataAtual}`, 160, 10)
+        //  variavel de apoio na formatação
+        let y = 45
+        doc.text("Nome", 14, y)
+        doc.text("Telefone", 80, y)
+        doc.text("E-mail", 130, y)
+        y += 5
+        doc.setLineWidth(0.5)
+        doc.line(10, y, 200, y) //10 (inicio) ----- 200 (fim)
+        doc.text("Relatório de clientes", 14, 20) // x, y (mm)
         const tempDir = app.getPath('temp')
         const filePath = path.join(tempDir, 'clientes.pdf')
         doc.save(filePath)
