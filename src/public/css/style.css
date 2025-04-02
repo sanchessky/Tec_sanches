@@ -24,6 +24,16 @@ footer p {
     
     
 }
+/* logo*/
+#logo {
+    position: fixed;
+    bottom: 40px;
+    border: none;
+    cursor: none;
+    left: 350px;
+    top: 50%; 
+}
+
 #btnReset {
     width: 48px;
     height: 48px;
