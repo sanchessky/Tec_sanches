@@ -17,6 +17,8 @@ const fs = require('fs')
 // Importação do Schema Clientes da camada model
 const clientModel = require('./src/models/Clientes.js')
 
+// Importação do Schema OS da camada model
+const osModel = require('./src/models/OS.js')
 
 
 // Janela principal
@@ -95,12 +97,15 @@ function osWindow() {
     const main = BrowserWindow.getFocusedWindow()
     if (main) {
         os = new BrowserWindow({
-            width: 1010,
-            height: 720,
+            width: 1110,
+            height: 820,
             // autoHideMenuBar: true,
             resizable: false,
             parent: main,
-            modal: true
+            modal: true,
+            webPreferences: {
+                preload: path.join(__dirname, 'preload.js')
+            }
         })
     }
     os.loadFile('./src/views/os.html')
@@ -374,4 +379,67 @@ async function relatorioClientes() {
 }
 
 // == Fim - relatório de clientes =============================
+// ============================================================
+
+
+// ============================================================
+// == Ordem de Serviço - CRUD Create
+// recebimento do objeto que contem os dados da ordem de serviço
+ipcMain.on('new-OS', async (event, os) => {
+    // Importante! Teste de recebimento dos dados da ordem de serviço
+    console.log(os)
+    // Cadastrar a estrutura de dados no banco de dados MongoDB
+    try {
+        // criar uma nova de estrutura de dados usando a classe modelo. Atenção! Os atributos precisam ser idênticos ao modelo de dados OS.js e os valores são definidos pelo conteúdo do objeto cliente
+        const newOs = new osModel({
+            nameOS: os.nameClientOS,
+            statusOS: os.osStatus,
+            dataOS: os.dataOS,
+            modelocellOS: os.modelocellOS,
+            tecnicoOS: os.tecnicoOS,
+            diagnoticoOS: os.diagnoticoOS,
+            imeiOS: os.imeiOS,
+            descricao: os.descricao,
+            obsOS: os.obsOS,
+            valorOS: os.valorOS
+
+        })
+        // salvar os dados do os no banco de dados
+        await newOs.save()
+        // Mensagem de confirmação
+        dialog.showMessageBox({
+            // custon
+            type: 'info',
+            title: "Aviso",
+            message: "OS cadastrada com sucesso.",
+            buttons: ['OK']
+        }).then((result) => {
+            //ação ao pressionar o botão (result = 0)
+            if (result.response === 0) {
+                // pedido para o render limpar os campos e fazer um reset nas config 
+                event.reply('reset-form')
+            }
+
+        })
+    } catch (error) {
+        // se o código de erro for 11000(cpf duplicado) enviar uma mensagem ao usuario
+        if (error.code === 11000) {
+            dialog.showMessageBox({
+                type: 'error',
+                title: "Atenção",
+                message: "CPF já cadastrado.\n",
+                buttons: ['OK']
+            }).then((result) => {
+                if (result.response === 0) {
+                    //Limpar a caixa de input do CPF, focar esta caixa e deixar a borda em vermelho
+
+
+                }
+            })
+        }
+        console.log(error)
+    }
+})
+
+// == Fim - Clientes - CRUD Create
 // ============================================================
