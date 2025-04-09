@@ -10,9 +10,6 @@ const osSchema = new Schema({
     statusOS: {
         type: String
     },
-    dataOS: {
-        type: String
-    },
     modelocellOS: {
         type: String
     },
@@ -23,18 +20,15 @@ const osSchema = new Schema({
         type: String
     },
     imeiOS: {
-        type: String, UNIQUE: true,
+        type: Number,
+        unique: true
     },
-    descricao: {
-        type: String
-    },
-    obsOS: {
+    descricaoOS: {
         type: String
     },
     valorOs: {
-        type: String
+        type: Number
     }
-
 }, { versionKey: false }) // não versionar os dados armazenados 
 
 // exportar para o main o moulo de dados

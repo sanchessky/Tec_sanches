@@ -313,7 +313,7 @@ async function relatorioClientes() {
         // Inserir imagem no documento pdf
         // imagePath (caminho da imagem que será inserida no pdf)
         // imageBase64 (uso da biblioteca fs par ler o arquivo no formato png)
-        const imagePath = path.join(__dirname, 'src', 'public', 'img', 'TEC_SANCHES.png')
+        const imagePath = path.join(__dirname, 'src', 'public', 'img', 'tecss.PNG')
         const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' })
         doc.addImage(imageBase64, 'PNG', 5, 8) //(5mm, 8mm x,y)
         // definir o tamanho da fonte (tamanho equivalente ao word)
@@ -338,6 +338,7 @@ async function relatorioClientes() {
         y += 10 // espaçamento da linha
         // percorrer o vetor clientes(obtido do banco) usando o laço forEach (equivale ao laço for)
         clientes.forEach((c) => {
+            
             // adicionar outra página se a folha inteira for preenchida (estratégia é saber o tamnaho da folha)
             // folha A4 y = 297mm
             if (y > 280) {
@@ -392,18 +393,15 @@ ipcMain.on('new-OS', async (event, os) => {
     try {
         // criar uma nova de estrutura de dados usando a classe modelo. Atenção! Os atributos precisam ser idênticos ao modelo de dados OS.js e os valores são definidos pelo conteúdo do objeto cliente
         const newOs = new osModel({
-            nameOS: os.nameClientOS,
-            statusOS: os.osStatus,
-            dataOS: os.dataOS,
-            modelocellOS: os.modelocellOS,
+            statusOS: os.StatusOS,
+            modelocellOS: os.modeloOS,
             tecnicoOS: os.tecnicoOS,
-            diagnoticoOS: os.diagnoticoOS,
-            imeiOS: os.imeiOS,
-            descricao: os.descricao,
-            obsOS: os.obsOS,
-            valorOS: os.valorOS
-
+            diagnoticoOS: os.diagnosticoOS,
+            imeiOS: os.ImeiOS,
+            descricaoOS: os.servicoOS,
+            valorOs: os.valorOS
         })
+        
         // salvar os dados do os no banco de dados
         await newOs.save()
         // Mensagem de confirmação
@@ -440,6 +438,8 @@ ipcMain.on('new-OS', async (event, os) => {
         console.log(error)
     }
 })
+
+
 
 // == Fim - Clientes - CRUD Create
 // ============================================================

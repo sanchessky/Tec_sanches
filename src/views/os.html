@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,116 +10,121 @@
     <!-- CSS personalizado -->
     <link rel="stylesheet" href="../public/css/style.css">
     <!-- impedir a execução de scripts externos ou não autorizados -->
-     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
 </head>
+
 <body>
     <div class="container">
         <div class="container">
             <form id="frmOS" class="mt-2 row g-3">
-             
-            <div class="col-md-4">
-                <label class="form-label">Nº OS</label>
-                <input type="text" class="form-control" id="txtOs" disabled>
-            </div>
 
-            
-            <div class="col-md-3">
-                <label class="form-label">Data</label>
-                <input type="textDataOs" class="form-control" id="txtDataOS" disabled>
-            </div>
-
-            
-            <div class="col-md-5">
-                <label for="inputSearchOS" class="form-label">Buscar Cliente</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="inputSearchOS" spellcheck="false" required maxlength="30">
-                    <span class="input-group-text">
-                        <img src="../public/img/search.png" alt="lupa" width="20">
-                    </span>
+                <div class="col-md-4">
+                    <label class="form-label">Nº OS</label>
+                    <input type="text" class="form-control" id="txtOs" disabled>
                 </div>
-            </div>
 
-            
-            <div class="col-md-5">
-                <label for="inputNameClientOS" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="inputNameClientOS" spellcheck="false" maxlength="30" disabled>
-            </div>
 
-            <!-- Telefone -->
-            <div class="col-md-3">
-                <label for="inputPhoneClientOS" class="form-label">Telefone</label>
-                <input type="text" class="form-control" id="inputPhoneClientOS" spellcheck="false" maxlength="15"
-                    disabled>
-            </div>
+                <div class="col-md-3">
+                    <label class="form-label">Data</label>
+                    <input type="text" class="form-control" id="txtDataOS" disabled>
+                </div>
 
-            <!-- CPF -->
-            <div class="col-md-4">
-                <label for="inputCPFClientOS" class="form-label">CPF</label>
-                <input type="text" class="form-control" id="inputCPFClientOS" spellcheck="false" maxlength="15" disabled>
-            </div>
 
-            <!-- Linha -->
-            <hr class="mt-4 border border-secondary border -1">
+                <div class="col-md-5">
+                    <label for="inputSearchOS" class="form-label">Buscar Cliente</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputSearchOS" spellcheck="false" required
+                            maxlength="30">
+                        <span class="input-group-text">
+                            <img src="../public/img/search.png" alt="lupa" width="20">
+                        </span>
+                    </div>
+                </div>
 
-            <!-- Status -->
-            <div class="col-md-4">
-                <label class="form-label">Status da OS</label>
-                <select class="form-select" id="inputosStatusOS">
-                    <option value="">Selecione</option>
-                    <option>Aberta</option>
-                    <option>Em andamento</option>
-                    <option>Aguardando peças</option>
-                    <option>Finalizada</option>
-                    <option>Cancelada</option>
-                </select>
-            </div>
-            
-            <div class="col-md-3">
-                <label class="form-label" id="inputmodelcellOS">Modelo do Celular</label>
-                <input type="text" class="form-control" id="inputmodelcellOS" maxlength="30" required>
-            </div>
 
-            <div class="col-md-5">
-                <label class="form-label" id="inputIMEIOS">Número do Imei</label>
-                <input type="text" class="form-control" id="inputIMEIOS" maxlength="20" >
-            </div>
+                <div class="col-md-5">
+                    <label for="inputNameClientOS" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="inputNameClientOS" spellcheck="false" maxlength="30"
+                        disabled>
+                </div>
+
+                <!-- Telefone -->
+                <div class="col-md-3">
+                    <label for="inputPhoneClientOS" class="form-label">Telefone</label>
+                    <input type="text" class="form-control" id="inputPhoneClientOS" spellcheck="false" maxlength="15"
+                        disabled>
+                </div>
+
+                <!-- CPF -->
+                <div class="col-md-4">
+                    <label for="inputCPFClientOS" class="form-label">CPF</label>
+                    <input type="text" class="form-control" id="inputCPFClientOS" spellcheck="false" maxlength="15"
+                        disabled>
+                </div>
+
+                <!-- Linha -->
+                <hr class="mt-4 border border-secondary border -1">
+
+                <!-- Status -->
+                <div class="col-md-4">
+                    <label class="form-label">Status da OS</label>
+                    <select class="form-select" id="inputosStatusOS">
+                        <option value="">Selecione</option>
+                        <option>Aberta</option>
+                        <option>Em andamento</option>
+                        <option>Aguardando peças</option>
+                        <option>Finalizada</option>
+                        <option>Cancelada</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label" for="inputmodelcellOS">Modelo do Celular</label>
+                    <input type="text" class="form-control" id="inputmodelcellOS" maxlength="30" required>
+                </div>
+
+                <div class="col-md-5">
+                    <label class="form-label" for="inputIMEIOS">Número do IMEI</label>
+                    <input type="text" class="form-control" id="inputIMEIOS" maxlength="20">
+                </div>
 
                 <div class="md-5">
                     <label for="inputservicoOS" class="form-label">Descrição do Serviço</label>
-                    <textarea input class="form-control" id="inputservicoOS" rows="3" placeholder="Descrição detalhada do serviço" required></textarea>
+                    <textarea class="form-control" id="inputservicoOS" rows="3"
+                        placeholder="Descrição detalhada do serviço" required></textarea>
                 </div>
-           
-
-            <div class="col-md-3">
-                <label class="form-label" id="inputTecnicoOS">Técnico</label>
-                <input type="text" class="form-control" id="inputTecnicoOS" maxlength="20" >
-            </div>
-
-            <div class="col-md-9">
-                <label class="form-label" id="inputDiagnosticoOS">Diagnóstico técnico</label>
-                <textarea input type="text" class="form-control" id="inputDiagnosticoOS" placeholder="Descrição Tecnica" maxlength="60"></textarea>
-            </div>
-            
 
 
-            <div class="col-md-3">
-                <label class="form-label" id="inputValorOS">Valor</label>
-                <input input type="text" class="form-control" id="inputValorOS" maxlength="20" >
-            </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="inputTecnicoOS">Técnico</label>
+                    <input type="text" class="form-control" id="inputTecnicoOS" maxlength="20">
+                </div>
 
-            <div class="mt-4 d-flex justify-content-center gap-1">
-                <button type="submit" class="btn btn-success">Gerar OS</button>
-                <button type="button" class="btn btn-primary">Buscar OS</button>
-                <button type="button" class="btn btn-warning">Editar OS</button>
-                <button type="button" class="btn btn-danger">Excluir OS</button>
-                <button type="button" class="btn btn-secondary">Imprimir OS</button>
+                <div class="col-md-9">
+                    <label class="form-label" for="inputDiagnosticoOS">Diagnóstico técnico</label>
+                    <textarea class="form-control" id="inputDiagnosticoOS" placeholder="Descrição Técnica"maxlength="60" required false></textarea>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label" for="inputValorOS">Valor</label>
+                    <input type="text" class="form-control" id="inputValorOS" maxlength="20">
+                </div>
+
+                <div class="mt-4 d-flex justify-content-center gap-1">
+                    <button type="submit" class="btn btn-success" id="btnCreate">Gerar OS</button>
+                    <button type="button" class="btn btn-primary">Buscar OS</button>
+                    <button type="button" class="btn btn-warning" id="btnUpdate">Editar OS</button>
+                    <button type="button" class="btn btn-danger" id="btnDelete">Excluir OS</button>
+                    <button type="button" class="btn btn-secondary">Imprimir OS</button>
+                    <button type="reset" class="btn" id="btnReset" onclick="resetForm()"></button>
             </form>
-    </div>
+        </div>
 
-     <!-- Bootstrap -->
-     <script src="../public/css/bootstrap.min.css"></script>
-     <!-- Scripts -->
-     <script src="rendererOs.js"></script>
+        <!-- Bootstrap -->
+        <script src="../public/css/bootstrap.min.css"></script>
+        <!-- Scripts -->
+        <script src="rendererOs.js"></script>
 
 </body>
+
 </html>
