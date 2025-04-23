@@ -458,6 +458,24 @@ ipcMain.on('search-name', async (event, name) => {
             ]
           })
         console.log(dataClient) // teste passos 3 e 4 (importante!)
+        if (dataClient.length === 0) {
+            dialog.showMessageBox({
+                type: 'warning',
+                title: "Atenção!",
+                message: "Cliente não cadastrado.\n Deseja cadastrar esse cliente",
+                defaultId:0,
+                buttons:['Sim', 'Não']
+            }).then((result)=>{
+                if (result.response === 0) {
+                    event.reply('set-client')
+                } else {
+                    event.reply('reset-form')
+                }
+
+            })
+        } else {
+
+        }
         // Passo 5:
         // enviando os dados do cliente ao rendererCliente
         // OBS: IPC só trabalha com string, então é necessário converter o JSON para string JSON.stringify(dataClient)

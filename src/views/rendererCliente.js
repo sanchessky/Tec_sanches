@@ -19,6 +19,15 @@ function buscarCEP() {
         .catch(error => console.log(error))
 }
 
+// == Validar CPF =============================================
+function validarCPF() {
+
+}
+// == Fim - validar CPF =======================================
+
+// vetor global que será usado na manipulação dos dados
+let arrayClient = []
+
 // capturar o foco na busca pelo nome do cliente
 // a constante foco obtem o elemento html (input) identificado como 'searchClient'
 const foco = document.getElementById('searchClient')
@@ -117,7 +126,16 @@ function buscarCliente() {
 
 
 }
-// == Fim CRUD Read ========================================================================================================
+// == Fim CRUD Read===================================================================================================
+//setar o cliente não cadastrado 
+api.setClient((args)=>{
+    let campoBusca = document.getElementById('searchClient').value
+    nameClient.focus()
+    foco.value = ""
+    nameClient.value = campoBusca
+})
+
+//======================================================================
 
 //=====Reset form==================
 function resetForm() {
