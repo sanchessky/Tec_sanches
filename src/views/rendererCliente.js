@@ -134,21 +134,22 @@ api.setClient((args) => {
     // Regex para verificar se o valor é só número (CPF)
     if (/^\d{11}$/.test(campoBusca)) {
         // Se for CPF
-        cpfClient.focus();
-        foco.value = "";
-        cpfClient.value = campoBusca;
+        cpfClient.focus()
+        foco.value = ""
+        cpfClient.value = campoBusca
     } else if (/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(campoBusca)) {
         // Se for CPF com formatação
-        cpfClient.focus();
-        foco.value = "";
-        cpfClient.value = campoBusca;
+        cpfClient.focus()
+        foco.value = ""
+        cpfClient.value = campoBusca
     } else {
         // Se não for CPF, trata como nome
-        nameClient.focus();
-        foco.value = "";
-        nameClient.value = campoBusca;
+        nameClient.focus()
+        foco.value = ""
+        nameClient.value = campoBusca
     }
-});
+})
+
 
 
 //======================================================================
