@@ -20,3 +20,4 @@ contextBridge.exposeInMainWorld('api',
         searchName: (name) => ipcRenderer.send('search-name',name),
         renderClient:(dataClient)=> ipcRenderer.on('render-client',dataClient)
     })
+
