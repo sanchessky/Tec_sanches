@@ -468,4 +468,13 @@ ipcMain.on('search-name', async (event, name) => {
     }
 })
 // == Fim - CRUD Read =========================================
-// ============================================================
+// //==== Validadção de busca (preenchimento obrigatorio) CRUD Read
+ipcMain.on('validate-search',()=>{
+    dialog.showMessageBox({
+        type: 'warning',
+        title: "Atenção!",
+        message: "Preencha o campo de busca",
+        buttons: ['OK']
+    })
+})
+//============================================================
