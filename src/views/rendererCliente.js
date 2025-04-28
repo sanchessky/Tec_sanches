@@ -109,6 +109,7 @@ let complementClient = document.getElementById('inputComplementClient')
 let neighborhoodClient = document.getElementById('inputNeighborhoodClient')
 let cityClient = document.getElementById('inputCityClient')
 let ufClient = document.getElementById('inputUFClient')
+let id = document.getElementById('idClient')
 
 // ============================================================
 // == CRUD Create/Update ======================================
@@ -164,6 +165,7 @@ function buscarCliente() {
             arrayClient = dadosCliente
             // extrair os dados do cliente
             arrayClient.forEach((c) => {
+                id.value = c._id,
                 nameClient.value = c.nomeCliente,
                     cpfClient.value = c.cpfCliente,
                     emailClient.value = c.emailCliente,
@@ -207,7 +209,14 @@ api.setClient((args) => {
 })
 
 //======================================================================
+// == Inicio CRUD Delete =========================================
 
+function excluirCliente() {
+    console.log(id.value) // passo 1 (receber do form o id)
+    api.deleteClient(id) // passo 2 (enviar o id ao main)
+}
+
+// == Fim CRUD Delete ============================================
 //=====Reset form==================
 function resetForm() {
     //Limpar os campos e resetar o formulario com as configurações pré definidas.
