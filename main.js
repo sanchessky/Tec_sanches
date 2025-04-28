@@ -496,3 +496,22 @@ ipcMain.on('validate-search',()=>{
     })
 })
 //============================================================
+// ==Inicio CRUD DELETE ===============================================
+ipcMain.on('delete-client',async (event, id)=>{
+    console.log(id)
+    try {
+        // importante fazer a confirmação da exclusão
+        //usar a variavel let janela
+        const response = await dialog.showMessageBox(client,{
+            type:'warning',
+            title:"Atenção",
+            message: "Deseja realmente excluir esse cliente? \n Está ação não podera ser desfeita.",
+            buttons: ['Cancelar','Excluir']
+        })
+
+
+    } catch (error) {
+        console.log(error)
+    } 
+})
+// ==FIM CRUD DELETE ===============================================
