@@ -213,7 +213,7 @@ api.setClient((args) => {
 
 function excluirCliente() {
     console.log(id.value) // passo 1 (receber do form o id)
-    api.deleteClient(id) // passo 2 (enviar o id ao main)
+    api.deleteClient(id.value) // passo 2 (enviar o id ao main)
 }
 
 // == Fim CRUD Delete ============================================
