@@ -140,7 +140,20 @@ frmClient.addEventListener('submit', async (event) => {
         api.newClient(client)
     } else {
         // excecutar o método para alterar os dados do cliente
-        console.log(id.value)
+        const client = {
+            idCli: id.value,
+            nameCli: nameClient.value,
+            cpfCli: cpfClient.value,
+            emailCli: emailClient.value,
+            phoneCli: phoneClient.value,
+            cepCli: cepClient.value,
+            addressCli: addressClient.value,
+            numberCli: numberClient.value,
+            complementCli: complementClient.value,
+            neighborhoodCli: neighborhoodClient.value,
+            cityCli: cityClient.value,
+            ufCli: ufClient.value
+        }
     }
 })
 
