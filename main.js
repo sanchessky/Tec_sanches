@@ -544,6 +544,17 @@ ipcMain.on('update-client', async (event, client)=>{
                 new: true
             }
         )
+        // Confirmação de mensagem funcione
+        dialog.showMessageBox({
+            type: 'info',
+            title: "Aviso",
+            message: "Dados do cliente alterados com sucesso",
+            buttons: ['OK']
+        }).then((result) => {
+            if (result.response === 0) {
+                event.reply('reset-form')
+            }
+        })
     } catch (error) {
         console.log(error)
     }
