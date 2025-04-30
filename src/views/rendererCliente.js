@@ -154,7 +154,7 @@ frmClient.addEventListener('submit', async (event) => {
             cityCli: cityClient.value,
             ufCli: ufClient.value
         }
-        api.newClient(client)
+        api.updateClient(client)
     }
 })
 
