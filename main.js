@@ -524,23 +524,29 @@ ipcMain.on('delete-client',async (event, id)=>{
 // ==Inicio CRUD UPDATE ===============================================
 ipcMain.on('update-client', async (event, client)=>{
     try {
-        const updateClient = await clientModel.findByIdAndUpdate({
-            nomeCliente: client.nameCli,
-            cpfCliente: client.cpfCli,
-            emailCliente: client.emailCli,
-            foneCliente: client.phoneCli,
-            cepCliente: client.cepCli,
-            logradouroCliente: client.addressCli,
-            numeroCliente: client.numberCli,
-            complementoCliente: client.complementCli,
-            bairroCliente: client.neighborhoodCli,
-            cidadeCliente: client.cityCli,
-            ufCliente: client.ufCli
-        })
+        const updateClient = await clientModel.findByIdAndUpdate(
+            client.idCli,
+
+            {
+                nomeCliente: client.nameCli,
+                cpfCliente: client.cpfCli,
+                emailCliente: client.emailCli,
+                foneCliente: client.phoneCli,
+                cepCliente: client.cepCli,
+                logradouroCliente: client.addressCli,
+                numeroCliente: client.numberCli,
+                complementoCliente: client.complementCli,
+                bairroCliente: client.neighborhoodCli,
+                cidadeCliente: client.cityCli,
+                ufCliente: client.ufCli
+            },
+            {
+                new: true
+            }
+        )
     } catch (error) {
         console.log(error)
     }
-
 
 })
 
