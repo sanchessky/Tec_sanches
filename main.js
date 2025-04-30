@@ -521,3 +521,13 @@ ipcMain.on('delete-client',async (event, id)=>{
     } 
 })
 // ==FIM CRUD DELETE ===============================================
+// ==Inicio CRUD UPDATE ===============================================
+ipcMain.on('update-client', async (event, client)=>{
+    console.log(client)
+
+
+})
+
+
+
+// ==FIM CRUD UPDATE ==================================================
