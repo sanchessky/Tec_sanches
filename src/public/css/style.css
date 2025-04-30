@@ -33,6 +33,10 @@ footer p {
 
    
 }
+/*ocultado o campo id do cliente*/
+#idClient {
+    display: none;
+}
 
 #btnReset {
     width: 48px;

@@ -502,12 +502,18 @@ ipcMain.on('delete-client',async (event, id)=>{
     try {
         // importante fazer a confirmação da exclusão
         //usar a variavel let janela
-        const response = await dialog.showMessageBox(client,{
+        const {response} = await dialog.showMessageBox(client,{
             type:'warning',
             title:"Atenção",
             message: "Deseja realmente excluir esse cliente? \n Está ação não podera ser desfeita.",
             buttons: ['Cancelar','Excluir']
         })
+        if(response === 1 ) {
+            //passo 3 excluir o registro do cliente 
+            const delClient = await clientModel.findByIdAndDelete(id)
+            event.reply('reset-form')
+
+        }
 
 
     } catch (error) {

@@ -177,6 +177,11 @@ function buscarCliente() {
                     neighborhoodClient.value = c.bairroCliente,
                     cityClient.value = c.cidadeCliente,
                     ufClient.value = c.ufCliente
+                     // bloqueio do botão adicinar
+                     btnCreate.disabled = true
+                     // Desbloqueio dos botão ediar e excluir
+                     btnUpdate.disabled = false
+                     btnDelete.disabled = false
             })
         })
     }
