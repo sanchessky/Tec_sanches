@@ -235,7 +235,7 @@ api.setClient((args) => {
 //======================================================================
 /// == Inicio CRUD Delete =========================================
 
-function apagarCliente() {
+function apagarOS() {
     console.log(id.value) // passo 1 (receber do form o id)
     api.deleteClient(id.value) // passo 2 (enviar o id ao main)
     
