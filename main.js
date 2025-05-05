@@ -180,10 +180,12 @@ const template = [
                 click: () => relatorioClientes()
             },
             {
-                label: 'OS abertas'
+                label: 'OS abertas',
+                click: () => relatorioOspendente()
             },
             {
-                label: 'OS concluídas'
+                label: 'OS concluídas',
+                click: () => relatorioOsconcluida()
             }
         ]
     },
@@ -338,7 +340,7 @@ async function relatorioClientes() {
         y += 10 // espaçamento da linha
         // percorrer o vetor clientes(obtido do banco) usando o laço forEach (equivale ao laço for)
         clientes.forEach((c) => {
-            
+
             // adicionar outra página se a folha inteira for preenchida (estratégia é saber o tamnaho da folha)
             // folha A4 y = 297mm
             if (y > 280) {
@@ -349,7 +351,7 @@ async function relatorioClientes() {
                 doc.text("Telefone", 80, y)
                 doc.text("E-mail", 130, y)
                 y += 5
-                doc.setLineWidth(0.5) 
+                doc.setLineWidth(0.5)
                 doc.line(10, y, 200, y)
                 y += 10
             }
@@ -364,7 +366,7 @@ async function relatorioClientes() {
         for (let i = 1; i <= paginas; i++) {
             doc.setPage(i)
             doc.setFontSize(10)
-            doc.text(`Página ${i} de ${paginas}`, 105, 290, {align: 'center'})
+            doc.text(`Página ${i} de ${paginas}`, 105, 290, { align: 'center' })
         }
 
         // Definir o caminho do arquivo temporário e nome do arquivo
@@ -393,6 +395,8 @@ ipcMain.on('new-OS', async (event, os) => {
     try {
         // criar uma nova de estrutura de dados usando a classe modelo. Atenção! Os atributos precisam ser idênticos ao modelo de dados OS.js e os valores são definidos pelo conteúdo do objeto cliente
         const newOs = new osModel({
+            nameOs: os.nameOS,
+            cpfOs: os.cfpOS,
             statusOS: os.StatusOS,
             modelocellOS: os.modeloOS,
             tecnicoOS: os.tecnicoOS,
@@ -401,7 +405,7 @@ ipcMain.on('new-OS', async (event, os) => {
             descricaoOS: os.servicoOS,
             valorOs: os.valorOS
         })
-        
+
         // salvar os dados do os no banco de dados
         await newOs.save()
         // Mensagem de confirmação
@@ -451,21 +455,21 @@ ipcMain.on('search-name', async (event, name) => {
     //find({nomeCliente: name}) - busca pelo nome
     //RegExp(name, 'i') - i (insensitive / Ignorar maiúsculo ou minúsculo)
     try {
-        const dataClient  = await clientModel.find({
+        const dataClient = await clientModel.find({
             $or: [
-              { nomeCliente: new RegExp(name, 'i') },
-              { cpfCliente: new RegExp(name, 'i') }
+                { nomeCliente: new RegExp(name, 'i') },
+                { cpfCliente: new RegExp(name, 'i') }
             ]
-          })
+        })
         console.log(dataClient) // teste passos 3 e 4 (importante!)
         if (dataClient.length === 0) {
             dialog.showMessageBox({
                 type: 'warning',
                 title: "Atenção!",
                 message: "Cliente não cadastrado.\n Deseja cadastrar esse cliente",
-                defaultId:0,
-                buttons:['Sim', 'Não']
-            }).then((result)=>{
+                defaultId: 0,
+                buttons: ['Sim', 'Não']
+            }).then((result) => {
                 if (result.response === 0) {
                     event.reply('set-client')
                 } else {
@@ -487,7 +491,7 @@ ipcMain.on('search-name', async (event, name) => {
 })
 // == Fim - CRUD Read =========================================
 // //==== Validadção de busca (preenchimento obrigatorio) CRUD Read
-ipcMain.on('validate-search',()=>{
+ipcMain.on('validate-search', () => {
     dialog.showMessageBox({
         type: 'warning',
         title: "Atenção!",
@@ -497,18 +501,18 @@ ipcMain.on('validate-search',()=>{
 })
 //============================================================
 // ==Inicio CRUD DELETE ===============================================
-ipcMain.on('delete-client',async (event, id)=>{
+ipcMain.on('delete-client', async (event, id) => {
     console.log(id)
     try {
         // importante fazer a confirmação da exclusão
         //usar a variavel let janela
-        const {response} = await dialog.showMessageBox(client,{
-            type:'warning',
-            title:"Atenção",
+        const { response } = await dialog.showMessageBox(client, {
+            type: 'warning',
+            title: "Atenção",
             message: "Deseja realmente excluir esse cliente? \n Está ação não podera ser desfeita.",
-            buttons: ['Cancelar','Excluir']
+            buttons: ['Cancelar', 'Excluir']
         })
-        if(response === 1 ) {
+        if (response === 1) {
             //passo 3 excluir o registro do cliente 
             const delClient = await clientModel.findByIdAndDelete(id)
             event.reply('reset-form')
@@ -518,11 +522,11 @@ ipcMain.on('delete-client',async (event, id)=>{
 
     } catch (error) {
         console.log(error)
-    } 
+    }
 })
 // ==FIM CRUD DELETE ===============================================
 // ==Inicio CRUD UPDATE ===============================================
-ipcMain.on('update-client', async (event, client)=>{
+ipcMain.on('update-client', async (event, client) => {
     try {
         const updateClient = await clientModel.findByIdAndUpdate(
             client.idCli,
@@ -560,7 +564,166 @@ ipcMain.on('update-client', async (event, client)=>{
     }
 
 })
-
-
-
 // ==FIM CRUD UPDATE ==================================================
+// == Inicio Relatorio OS Pendente ======================================
+async function relatorioOspendente() {
+    try {
+        // Passo 1: Consultar o banco de dados e obter a listagem de clientes cadastrados por ordem alfabética
+        const clientesos = await osModel.find({statusOS:'Em andamento'}).sort({ nomeStatusOS: 1 })
+        // teste de recebimento da listagem de clientes
+        //console.log(clientesos)
+        // Passo 2:Formatação do documento pdf
+        // p - portrait | l - landscape | mm e a4 (folha A4 (210x297mm))
+        const doc = new jsPDF('p', 'mm', 'a4')
+        // Inserir imagem no documento pdf
+        // imagePath (caminho da imagem que será inserida no pdf)
+        // imageBase64 (uso da biblioteca fs par ler o arquivo no formato png)
+        const imagePath = path.join(__dirname, 'src', 'public', 'img', 'tecss.PNG')
+        const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' })
+        doc.addImage(imageBase64, 'PNG', 5, 8) //(5mm, 8mm x,y)
+        // definir o tamanho da fonte (tamanho equivalente ao word)
+        doc.setFontSize(18)
+        // escrever um texto (título)
+        doc.text("Relatório de Os Pendente", 14, 45)//x, y (mm)
+        // inserir a data atual no relatório
+        const dataAtual = new Date().toLocaleDateString('pt-BR')
+        doc.setFontSize(12)
+        doc.text(`Data: ${dataAtual}`, 165, 10)
+        // variável de apoio na formatação
+        let y = 60
+        doc.text("Nome", 14, y)
+        doc.text("Status do Serviços", 80, y)
+        doc.text("SmartPhone", 130, y)
+        y += 5
+        // desenhar uma linha
+        doc.setLineWidth(0.5) // expessura da linha
+        doc.line(10, y, 200, y) // 10 (inicio) ---- 200 (fim)
+
+        // renderizar os clientes cadastrados no banco
+        y += 10 // espaçamento da linha
+        // percorrer o vetor clientes(obtido do banco) usando o laço forEach (equivale ao laço for)
+        clientesos.forEach((o) => {
+
+            // adicionar outra página se a folha inteira for preenchida (estratégia é saber o tamnaho da folha)
+            // folha A4 y = 297mm
+            if (y > 280) {
+                doc.addPage()
+                y = 20 // resetar a variável y
+                // redesenhar o cabeçalho
+                doc.text("Nome", 14, y)
+                doc.text("CPF", 80, y)
+                doc.text("SmartPhone", 130, y)
+                y += 5
+                doc.setLineWidth(0.5)
+                doc.line(10, y, 200, y)
+                y += 10
+            }
+                doc.text(o.statusOS, 80, y),
+                doc.text(o.modelocellOS, 130, y)
+            y += 10 //quebra de linha
+        })
+
+        // Adicionar numeração automática de páginas
+        const paginas = doc.internal.getNumberOfPages()
+        for (let i = 1; i <= paginas; i++) {
+            doc.setPage(i)
+            doc.setFontSize(10)
+            doc.text(`Página ${i} de ${paginas}`, 105, 290, { align: 'center' })
+        }
+
+        // Definir o caminho do arquivo temporário e nome do arquivo
+        const tempDir = app.getPath('temp')
+        const filePath = path.join(tempDir, 'clientesos.pdf')
+        // salvar temporariamente o arquivo
+        doc.save(filePath)
+        // abrir o arquivo no aplicativo padrão de leitura de pdf do computador do usuário
+        shell.openPath(filePath)
+
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// == Fim Relatorio OS Pendente ========================================
+
+async function relatorioOsconcluida() {
+    try {
+        // Passo 1: Consultar o banco de dados e obter a listagem de clientes cadastrados por ordem alfabética
+        const clientesos = await osModel.find({statusOS:'Finalizada'}).sort({ nomeStatusOS: 1 })
+        // teste de recebimento da listagem de clientes
+        //console.log(clientesos)
+        // Passo 2:Formatação do documento pdf
+        // p - portrait | l - landscape | mm e a4 (folha A4 (210x297mm))
+        const doc = new jsPDF('p', 'mm', 'a4')
+        // Inserir imagem no documento pdf
+        // imagePath (caminho da imagem que será inserida no pdf)
+        // imageBase64 (uso da biblioteca fs par ler o arquivo no formato png)
+        const imagePath = path.join(__dirname, 'src', 'public', 'img', 'tecss.PNG')
+        const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' })
+        doc.addImage(imageBase64, 'PNG', 5, 8) //(5mm, 8mm x,y)
+        // definir o tamanho da fonte (tamanho equivalente ao word)
+        doc.setFontSize(18)
+        // escrever um texto (título)
+        doc.text("Relatório de Os Pendente", 14, 45)//x, y (mm)
+        // inserir a data atual no relatório
+        const dataAtual = new Date().toLocaleDateString('pt-BR')
+        doc.setFontSize(12)
+        doc.text(`Data: ${dataAtual}`, 165, 10)
+        // variável de apoio na formatação
+        let y = 60
+        doc.text("Nome", 14, y)
+        doc.text("Status do Serviços", 80, y)
+        doc.text("SmartPhone", 130, y)
+        y += 5
+        // desenhar uma linha
+        doc.setLineWidth(0.5) // expessura da linha
+        doc.line(10, y, 200, y) // 10 (inicio) ---- 200 (fim)
+
+        // renderizar os clientes cadastrados no banco
+        y += 10 // espaçamento da linha
+        // percorrer o vetor clientes(obtido do banco) usando o laço forEach (equivale ao laço for)
+        clientesos.forEach((o) => {
+
+            // adicionar outra página se a folha inteira for preenchida (estratégia é saber o tamnaho da folha)
+            // folha A4 y = 297mm
+            if (y > 280) {
+                doc.addPage()
+                y = 20 // resetar a variável y
+                // redesenhar o cabeçalho
+                doc.text("Nome", 14, y)
+                doc.text("CPF", 80, y)
+                doc.text("SmartPhone", 130, y)
+                y += 5
+                doc.setLineWidth(0.5)
+                doc.line(10, y, 200, y)
+                y += 10
+            }
+                doc.text(o.statusOS, 80, y),
+                doc.text(o.modelocellOS, 130, y)
+            y += 10 //quebra de linha
+        })
+
+        // Adicionar numeração automática de páginas
+        const paginas = doc.internal.getNumberOfPages()
+        for (let i = 1; i <= paginas; i++) {
+            doc.setPage(i)
+            doc.setFontSize(10)
+            doc.text(`Página ${i} de ${paginas}`, 105, 290, { align: 'center' })
+        }
+
+        // Definir o caminho do arquivo temporário e nome do arquivo
+        const tempDir = app.getPath('temp')
+        const filePath = path.join(tempDir, 'clientesos.pdf')
+        // salvar temporariamente o arquivo
+        doc.save(filePath)
+        // abrir o arquivo no aplicativo padrão de leitura de pdf do computador do usuário
+        shell.openPath(filePath)
+
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// == Fim Relatorio OS concluida ========================================

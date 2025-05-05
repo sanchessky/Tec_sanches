@@ -23,7 +23,7 @@ let diagnosticoOS = document.getElementById('inputDiagnosticoOS')
 let valorOS = document.getElementById('inputValorOS')
 let dataOS = document.getElementById('txtDataOS')
 
-
+// == Inicio CRUD Create ===============================================
 
 //Evento associado ao botão submit (uso das validações do html)
 frmOS.addEventListener('submit', async (event) => {
@@ -33,9 +33,9 @@ frmOS.addEventListener('submit', async (event) => {
     console.log(nameClientOS.value, cpfClientOS.value, phoneClientOS.value, osStatus.value, modelcellOS.value, ImeiOS.value, servicoOS.value, tecnicoOS.value, diagnosticoOS.value, valorOS.value, dataOS.value)
     //Criar um objeto para armazenar os dados da OS antes de enviar ao main
     const os = {
-        //nameOS: nameClientOS.value,         // opcional
-       // cpfOS: cpfClientOS.value,           // opcional
-        //phoneCliOS: phoneClientOS.value,    // opcional
+        nameCOS: nameClientOS.value,         // opcional
+        cpfOS: cpfClientOS.value,           // opcional
+        phoneCliOS: phoneClientOS.value,    // opcional
         StatusOS: osStatus.value,
         modeloOS: modelcellOS.value,
         ImeiOS: ImeiOS.value,
@@ -51,8 +51,54 @@ frmOS.addEventListener('submit', async (event) => {
     api.newOS(os)
 })
 
-// == Fim CRUD Create/Update ==================================
-// ============================================================
+// == Fim CRUD Create ===============================================
+
+// // == Inicio CRUD Read =========================================
+function buscarOs() {
+    //console.log("teste do botão buscar")
+    // Passo 1: capturar o nome do cliente
+    let nameos = document.getElementById('inputSearchOS').value
+    console.log(nameos) // teste do passo 1
+
+    //Validação de campo obrigatorio. Se o campo de busca não for preenchido enviar um alerta ao usuario. Fazer o main enviar um pedido para alertar o usuário
+    if (nameos === "") {
+        api.validateSearch()
+        foco.focus()
+    } else {
+        api.searchNameos(nameos) // Passo 2: envio do nome ao main
+        // recebimento dos dados do cliente
+        api.renderClientos((event, dataClientos) => {
+            console.log(dataClientos) // teste do passo 5
+            // passo 6 renderizar os dados do cliente no formulário
+            // - Criar um vetor global para manipulação dos dados
+            // - criar uma constante para converter os dados recebidos (string) para o formato JASON (JSON.parse)
+            // usar o laço forEach para percorre o vetor e setar os campos (caixas de texto) do formulário
+            const ordemOS = JSON.parse(dataClientos)
+            // atribuir ao vetor os dados do cliente
+            arrayOS = ordemOS
+            // extrair os dados do cliente
+            arrayOS.forEach((o) => {
+                id.value = o._id,
+                nameClientOS.value  = o.nameClientOS, 
+                cpfOS.value = o.cpfClientOS, 
+                phoneOS.value  = o.phoneClientOS, 
+                osStatus.value  = o.osStatus,
+                modelcellOS.value = o.modelcellOS, 
+                ImeiOS.value   = o.ImeiOS, 
+                servicoOS.value   = o.servicoOS, 
+                tecnicoOS.value  = o.tecnicoOS, 
+                diagnosticoOS.value  = o.diagnosticoOS, 
+                valorOS.value   = o.valorOS, 
+                dataOS.value  = o.dataOS
+                
+                
+            })
+        })
+    }
+
+
+}
+// == Fim CRUD Read=============================================
 
 //=====Reset form==================
 function resetForm() {

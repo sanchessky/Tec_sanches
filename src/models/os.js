@@ -7,6 +7,12 @@ const { model, Schema } = require('mongoose')
 
 // criação da estrutura da coleção OS
 const osSchema = new Schema({
+    nameOs:{
+        type:String
+    },
+    cpfOs:{
+        type:String
+    },
     statusOS: {
         type: String
     },
