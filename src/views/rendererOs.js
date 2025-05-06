@@ -99,7 +99,15 @@ function buscarOs() {
 
 }
 // == Fim CRUD Read=============================================
+/// == Inicio CRUD Delete =========================================
 
+function apagarOs() {
+    console.log(id.value) // passo 1 (receber do form o id)
+    api.deleteClient(id.value) // passo 2 (enviar o id ao main)
+    
+}
+
+// == Fim CRUD Delete ============================================
 //=====Reset form==================
 function resetForm() {
     //Limpar os campos e resetar o formulario com as configurações pré definidas.
