@@ -665,7 +665,7 @@ async function relatorioOsconcluida() {
         // definir o tamanho da fonte (tamanho equivalente ao word)
         doc.setFontSize(18)
         // escrever um texto (título)
-        doc.text("Relatório de Os Pendente", 14, 45)//x, y (mm)
+        doc.text("Relatório de Os Finalizada", 14, 45)//x, y (mm)
         // inserir a data atual no relatório
         const dataAtual = new Date().toLocaleDateString('pt-BR')
         doc.setFontSize(12)
