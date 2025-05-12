@@ -46,3 +46,17 @@ footer p {
     cursor: pointer; 
     margin-left: 10px;
  }
+/* Lista de sugestões OS */
+#viewListSuggestion {
+    z-index: 2;
+    max-width: 301px;
+}
+
+#viewListSuggestion li {
+    background-color: #E0F0FF;
+}
+
+/* Dados do cliente - OS */
+#inputSearchClient, #viewListSuggestion, #inputIdClient, #inputNameClient, #inputPhoneClient {
+    font-size: 0.9em;
+}
