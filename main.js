@@ -8,11 +8,14 @@ const path = require('node:path')
 // Importação dos métodos conectar e desconectar (módulo de conexão)
 const { conectar, desconectar } = require('./database.js')
 
+// importar mongoose (validação do id na OS)
+const mongoose = require('mongoose')
+
 // Importação do Schema Clientes da camada model
 const clientModel = require('./src/models/Clientes.js')
 
 // Importação do Schema OS da camada model
-const osModel = require('./src/models/OS.js')
+const osModel = require('./src/models/os.js')
 
 // Importação do pacote jspdf (npm i jspdf)
 const { jspdf, default: jsPDF } = require('jspdf')
@@ -240,12 +243,10 @@ ipcMain.on('os-window', () => {
 
 
 
-//************************************************************/
 //***********************  Clientes  *************************/
-//************************************************************/
 
 
-// ============================================================
+
 // == Clientes - CRUD Create ==================================
 
 // recebimento do objeto que contem os dados do cliente
@@ -303,10 +304,10 @@ ipcMain.on('new-client', async (event, client) => {
 })
 
 // == Fim - Clientes - CRUD Create ============================
-// ============================================================
 
 
-// ============================================================
+
+
 // == Relatório de clientes ===================================
 
 async function relatorioClientes() {
@@ -387,10 +388,9 @@ async function relatorioClientes() {
 }
 
 // == Fim - relatório de clientes =============================
-// ============================================================
 
 
-// ============================================================
+
 // == CRUD Read ===============================================
 
 // Validação de busca (preenchimento obrigatório)
@@ -447,10 +447,10 @@ ipcMain.on('search-name', async (event, name) => {
 })
 
 // == Fim - CRUD Read =========================================
-// ============================================================
 
 
-// ============================================================
+
+
 // == CRUD Delete =============================================
 
 ipcMain.on('delete-client', async (event, id) => {
@@ -476,10 +476,10 @@ ipcMain.on('delete-client', async (event, id) => {
 })
 
 // == Fim - CRUD Delete =======================================
-// ============================================================
 
 
-// ============================================================
+
+
 // == CRUD Update =============================================
 
 ipcMain.on('update-client', async (event, client) => {
@@ -526,16 +526,11 @@ ipcMain.on('update-client', async (event, client) => {
 })
 
 // == Fim - CRUD Update =======================================
-// ============================================================
 
 
-
-//************************************************************/
 //*******************  Ordem de Serviço  *********************/
-//************************************************************/
 
 
-// ============================================================
 // == Buscar cliente para vincular na OS ======================
 
 ipcMain.on('search-clients', async (event) => {
@@ -634,3 +629,51 @@ ipcMain.on('search-os', (event) => {
 })
 
 // == Fim - Buscar OS =========================================
+// == OS - CRUD Read ===================================
+
+ipcMain.on('search-os', async (event) => {
+    prompt({
+        title: 'Buscar OS',
+        label: 'Digite o número da OS:',
+        inputAttrs: {
+            type: 'text'
+        },
+        type: 'input',
+        width: 400,
+        height: 200
+    }).then(async (result) => {
+        // buscar OS pelo id (verificar formato usando o mongoose - importar no início do main)
+        if (result !== null) {
+            // Verificar se o ID é válido (uso do mongoose - não esquecer de importar)
+            if (mongoose.Types.ObjectId.isValid(result)) {
+                try {
+                    const dataOS = await osModel.findById(result)
+                    if (dataOS) {
+                        console.log(dataOS) // teste importante
+                        // enviando os dados da OS ao rendererOS
+                        // OBS: IPC só trabalha com string, então é necessário converter o JSON para string JSON.stringify(dataOS)
+                        event.reply('render-os', JSON.stringify(dataOS))
+                    } else {
+                        dialog.showMessageBox({
+                            type: 'warning',
+                            title: "Aviso!",
+                            message: "OS não encontrada",
+                            buttons: ['OK']
+                        })
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            } else {
+                dialog.showMessageBox({
+                    type: 'error',
+                    title: "Atenção!",
+                    message: "Formato do número da OS inválido.\nVerifique e tente novamente.",
+                    buttons: ['OK']
+                })
+            }
+        }
+    })
+})
+
+// == Fim - OS - CRUD Read =============================

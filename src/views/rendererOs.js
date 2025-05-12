@@ -1,5 +1,5 @@
 // ===========================================================
-// == Busca avançada =========================================
+// == Inicio Busca avançada =========================================
 
 const input = document.getElementById('inputSearchClient')
 const suggestionList = document.getElementById('viewListSuggestion')
@@ -78,7 +78,7 @@ let diagnosis = document.getElementById('inputDiagnosis')
 let parts = document.getElementById('inputParts')
 let total = document.getElementById('inputTotal')
 // captura da OS (CRUD Delete e Update)
-let os = document.getElementById('inputOS')
+let osId = document.getElementById('inputOS')
 
 
 // ============================================================
@@ -129,8 +129,24 @@ function findOS() {
     api.searchOS()
 }
 
+
+api.renderOS((event, dataOS) => {
+    console.log(dataOS)
+    const os = JSON.parse(dataOS)
+    // preencher os campos com os dados da OS
+    osId.value = os._id
+    idClient.value = os.idCliente
+    statusOS.value = os.status
+    smartphone.value = os.smartphone
+    imei.value = os.imei
+    problem.value = os.problema
+    specialist.value = os.tecnico
+    diagnosis.value = os.diagnostico
+    parts.value = os.pecas
+    total.value = os.valor
+})
+
 // == Fim - Busca OS ===========================================
-// =============================================================
 
 
 // ============================================================
