@@ -21,7 +21,7 @@ const osSchema = new Schema({
     smartphone: {
         type: String
     },
-    serie: {
+    imei: {
         type: String        
     },
     problema: {

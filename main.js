@@ -580,7 +580,7 @@ ipcMain.on('new-os', async (event, os) => {
             idCliente: os.idClient_OS,
             statusOS: os.stat_OS,
             smartphone: os.smartphone_OS,
-            serie: os.serial_OS,
+            imei: os.imei_OS,
             problema: os.problem_OS,
             tecnico: os.specialist_OS,
             diagnostico: os.diagnosis_OS,
@@ -609,10 +609,8 @@ ipcMain.on('new-os', async (event, os) => {
 })
 
 // == Fim - CRUD Create - Gerar OS ===========================
-// ============================================================
 
 
-// ============================================================
 // == Buscar OS ===============================================
 
 ipcMain.on('search-os', (event) => {
@@ -636,4 +634,3 @@ ipcMain.on('search-os', (event) => {
 })
 
 // == Fim - Buscar OS =========================================
-// ============================================================

@@ -71,7 +71,7 @@ let arrayOS = []
 let frmOS = document.getElementById('frmOS')
 let statusOS = document.getElementById('inputStatus')
 let smartphone = document.getElementById('inputsmartphone')
-let serial = document.getElementById('inputSerial')
+let imei = document.getElementById('inputSerial')
 let problem = document.getElementById('inputProblem')
 let specialist = document.getElementById('inputSpecialist')
 let diagnosis = document.getElementById('inputDiagnosis')
@@ -93,7 +93,7 @@ frmOS.addEventListener('submit', async (event) => {
         api.validateClient()
     } else {
         // Teste importante (recebimento dos dados do formuláro - passo 1 do fluxo)
-        console.log(os.value, idClient.value, statusOS.value, smartphone.value, serial.value, problem.value, specialist.value, diagnosis.value, parts.value, total.value)
+        console.log(os.value, idClient.value, statusOS.value, smartphone.value, imei.value, problem.value, specialist.value, diagnosis.value, parts.value, total.value)
         if (os.value === "") {
             //Gerar OS
             //Criar um objeto para armazenar os dados da OS antes de enviar ao main
@@ -101,7 +101,7 @@ frmOS.addEventListener('submit', async (event) => {
                 idClient_OS: idClient.value,
                 stat_OS: statusOS.value,
                 smartphone_OS: smartphone.value,
-                serial_OS: serial.value,
+                imei_OS: imei.value,
                 problem_OS: problem.value,
                 specialist_OS: specialist.value,
                 diagnosis_OS: diagnosis.value,
