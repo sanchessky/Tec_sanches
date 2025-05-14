@@ -18,10 +18,10 @@ const osSchema = new Schema({
     status_OS: {
         type: String
     },
-    smartphone: {
+    celular: {
         type: String
     },
-    imei: {
+    serial: {
         type: String        
     },
     problema: {

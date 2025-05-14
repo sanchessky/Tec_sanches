@@ -1,5 +1,5 @@
 // ===========================================================
-// == Inicio Busca avançada =========================================
+// == Busca avançada =========================================
 
 const input = document.getElementById('inputSearchClient')
 const suggestionList = document.getElementById('viewListSuggestion')
@@ -70,15 +70,15 @@ let arrayOS = []
 // captura dos IDs do form OS
 let frmOS = document.getElementById('frmOS')
 let statusOS = document.getElementById('inputStatus')
-let smartphone = document.getElementById('inputsmartphone')
-let imei = document.getElementById('inputSerial')
+let celular = document.getElementById('inputsmartphone')
+let serial = document.getElementById('inputImei')
 let problem = document.getElementById('inputProblem')
 let specialist = document.getElementById('inputSpecialist')
 let diagnosis = document.getElementById('inputDiagnosis')
 let parts = document.getElementById('inputParts')
 let total = document.getElementById('inputTotal')
 // captura da OS (CRUD Delete e Update)
-let osId = document.getElementById('inputOS')
+let os = document.getElementById('inputOS')
 
 
 // ============================================================
@@ -93,15 +93,15 @@ frmOS.addEventListener('submit', async (event) => {
         api.validateClient()
     } else {
         // Teste importante (recebimento dos dados do formuláro - passo 1 do fluxo)
-        console.log(os.value, idClient.value, statusOS.value, smartphone.value, imei.value, problem.value, specialist.value, diagnosis.value, parts.value, total.value)
+        console.log(os.value, idClient.value, statusOS.value, celular.value, serial.value, problem.value, specialist.value, diagnosis.value, parts.value, total.value)
         if (os.value === "") {
             //Gerar OS
             //Criar um objeto para armazenar os dados da OS antes de enviar ao main
             const os = {
                 idClient_OS: idClient.value,
                 stat_OS: statusOS.value,
-                smartphone_OS: smartphone.value,
-                imei_OS: imei.value,
+                celular_OS: celular.value,
+                serial_OS: serial.value,
                 problem_OS: problem.value,
                 specialist_OS: specialist.value,
                 diagnosis_OS: diagnosis.value,
@@ -129,24 +129,8 @@ function findOS() {
     api.searchOS()
 }
 
-
-api.renderOS((event, dataOS) => {
-    console.log(dataOS)
-    const os = JSON.parse(dataOS)
-    // preencher os campos com os dados da OS
-    osId.value = os._id
-    idClient.value = os.idCliente
-    statusOS.value = os.status
-    smartphone.value = os.smartphone
-    imei.value = os.imei
-    problem.value = os.problema
-    specialist.value = os.tecnico
-    diagnosis.value = os.diagnostico
-    parts.value = os.pecas
-    total.value = os.valor
-})
-
 // == Fim - Busca OS ===========================================
+// =============================================================
 
 
 // ============================================================
