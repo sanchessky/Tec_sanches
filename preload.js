@@ -29,5 +29,4 @@ contextBridge.exposeInMainWorld('api', {
     setSearch: (args) => ipcRenderer.on('set-search', args),
     newOS: (os) => ipcRenderer.send('new-os', os),
     renderOS: (dataOS) => ipcRenderer.on('render-os', dataOS)
-
 })
