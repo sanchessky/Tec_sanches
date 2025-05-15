@@ -103,6 +103,7 @@ document.addEventListener('click', (e) => {
 })
 
 // == Fim - busca avançada ===================================
+// ============================================================
 
 // == Buscar OS - CRUD Read ===================================
 
@@ -135,6 +136,7 @@ api.renderOS((event, dataOS) => {
     diagnosis.value = os.diagnostico
     parts.value = os.pecas
     total.value = os.valor
+
 })
 
 

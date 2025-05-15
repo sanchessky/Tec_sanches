@@ -34,51 +34,111 @@ function aplicarMascaraCPF(campo) {
     }
 }
 
-// Função para validar CPF
-function validarCPF() {
-    const campo = document.getElementById('inputCPFClient');
-    let cpf = campo.value.replace(/\D/g, "");
+// Função para aplicar máscara dinâmica (CPF ou CNPJ)
+function aplicarMascaraDocumento(campo) {
+    let valor = campo.value.replace(/\D/g, "");
 
-    // Validações: CPF inválido ou com todos os números iguais
-    if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
-        campo.style.borderColor = "red";
-        campo.style.color = "red";
-        return false;
+    if (valor.length <= 11) {
+        // Máscara CPF: 000.000.000-00
+        valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+        valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+        valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    } else {
+        // Máscara CNPJ: 00.000.000/0000-00
+        valor = valor.replace(/^(\d{2})(\d)/, "$1.$2");
+        valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
+        valor = valor.replace(/\.(\d{3})(\d)/, ".$1/$2");
+        valor = valor.replace(/(\d{4})(\d)/, "$1-$2");
     }
 
-    // Validação do primeiro dígito verificador
+    campo.value = valor;
+}
+
+// Função para validar CPF ou CNPJ
+function validarDocumento() {
+    const campo = document.getElementById('inputCPFClient');
+    let valor = campo.value.replace(/\D/g, "");
+
+    if (valor.length === 11) return validarCPF(campo, valor);
+    if (valor.length === 14) return validarCNPJ(campo, valor);
+
+    return mostrarErro(campo);
+}
+
+// Validação CPF
+function validarCPF(campo, cpf) {
+    if (/^(\d)\1+$/.test(cpf)) return mostrarErro(campo);
+
     let soma = 0, resto;
     for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i - 1]) * (11 - i);
     resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
     if (resto !== parseInt(cpf[9])) return mostrarErro(campo);
 
-    // Validação do segundo dígito verificador
     soma = 0;
     for (let i = 1; i <= 10; i++) soma += parseInt(cpf[i - 1]) * (12 - i);
     resto = (soma * 10) % 11;
+    if (resto === 10 || resto === 11) resto = 0;
     if (resto !== parseInt(cpf[10])) return mostrarErro(campo);
 
-    campo.style.borderColor = "green";
-    campo.style.color = "green";
-    return true;
+    return mostrarSucesso(campo);
 }
 
-// Função para exibir erro de CPF inválido
+// Validação CNPJ
+function validarCNPJ(campo, cnpj) {
+    if (/^(\d)\1+$/.test(cnpj)) return mostrarErro(campo);
+
+    let tamanho = cnpj.length - 2;
+    let numeros = cnpj.substring(0, tamanho);
+    let digitos = cnpj.substring(tamanho);
+    let soma = 0;
+    let pos = tamanho - 7;
+
+    for (let i = tamanho; i >= 1; i--) {
+        soma += parseInt(numeros.charAt(tamanho - i)) * pos--;
+        if (pos < 2) pos = 9;
+    }
+
+    let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+    if (resultado !== parseInt(digitos.charAt(0))) return mostrarErro(campo);
+
+    tamanho += 1;
+    numeros = cnpj.substring(0, tamanho);
+    soma = 0;
+    pos = tamanho - 7;
+
+    for (let i = tamanho; i >= 1; i--) {
+        soma += parseInt(numeros.charAt(tamanho - i)) * pos--;
+        if (pos < 2) pos = 9;
+    }
+
+    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+    if (resultado !== parseInt(digitos.charAt(1))) return mostrarErro(campo);
+
+    return mostrarSucesso(campo);
+}
+
+// Mostrar erro visual
 function mostrarErro(campo) {
     campo.style.borderColor = "red";
     campo.style.color = "red";
     return false;
 }
 
-// Adicionar eventos para CPF
-const cpfInput = document.getElementById('inputCPFClient');
-if (cpfInput) {
-    cpfInput.addEventListener("input", () => aplicarMascaraCPF(cpfInput)); // Máscara ao digitar
-    cpfInput.addEventListener("blur", validarCPF); // Validação ao perder o foco
+// Mostrar sucesso visual
+function mostrarSucesso(campo) {
+    campo.style.borderColor = "green";
+    campo.style.color = "green";
+    return true;
 }
 
+// Eventos para campo de CPF/CNPJ
+const docInput = document.getElementById('inputCPFClient');
+if (docInput) {
+    docInput.addEventListener("input", () => aplicarMascaraDocumento(docInput));
+    docInput.addEventListener("blur", validarDocumento);
+}
 
-// == Fim - validar CPF =======================================
 
 // vetor global que será usado na manipulação dos dados
 let arrayClient = []
@@ -212,24 +272,24 @@ function buscarCliente() {
 api.setClient((args) => {
     let campoBusca = document.getElementById('searchClient').value.trim()
 
-    // Regex para verificar se o valor é só número (CPF)
-    if (/^\d{11}$/.test(campoBusca)) {
-        // É um número → CPF
-        cpfClient.focus()
-        foco.value = ""
-        cpfClient.value = campoBusca
-    } 
-    else if(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(campoBusca)){
-        cpfClient.focus()
-        foco.value = ""
-        cpfClient.value = campoBusca
-    }
-    else {
-        // Não é número → Nome
-        nameClient.focus()
-        foco.value = ""
-        nameClient.value = campoBusca
-    }
+// Verifica se é CPF (somente números ou com máscara)
+if (/^\d{11}$/.test(campoBusca) || /^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(campoBusca)) {
+    foco.value = "";
+    cpfClient.focus();
+    cpfClient.value = campoBusca;
+}
+// Verifica se é CNPJ (somente números ou com máscara)
+else if (/^\d{14}$/.test(campoBusca) || /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/.test(campoBusca)) {
+    foco.value = "";
+    cpfClient.focus();
+    cpfClient.value = campoBusca;
+}
+// Senão, assume como nome
+else {
+    foco.value = "";
+    nameClient.focus();
+    nameClient.value = campoBusca;
+}
 })
 
 //======================================================================
