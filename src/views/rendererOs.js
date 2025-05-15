@@ -109,7 +109,6 @@ frmOS.addEventListener('submit', async (event) => {
 // ============================================================
 
 
-// ============================================================
 // == Buscar OS - CRUD Read ===================================
 
 function findOS() {
@@ -134,21 +133,24 @@ api.renderOS((event, dataOS) => {
     dateOS.value = formatada
     idClient.value = os.idCliente
     statusOS.value = os.statusOS
-    celular.value = os.celular       // Corrigido aqui
+    celular.value = os.celular       
     serial.value = os.serie
     problem.value = os.problema
     specialist.value = os.tecnico
     diagnosis.value = os.diagnostico
     parts.value = os.pecas
     total.value = os.valor
+    api.getClientById(os.idCliente, (event, clientData) => {
+        const client = JSON.parse(clientData)
+        nameClient.value = client.nomeCliente
+        phoneClient.value = client.foneCliente
+    })
 })
 
 
 // == Fim - Buscar OS - CRUD Read =============================
-// ============================================================
 
 
-// ============================================================
 // == Reset form ==============================================
 
 function resetForm() {
@@ -160,4 +162,3 @@ api.resetForm(() => {
 })
 
 // == Fim - reset form ========================================
-// ============================================================

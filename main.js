@@ -186,10 +186,12 @@ const template = [
                 click: () => relatorioClientes()
             },
             {
-                label: 'OS abertas'
+                label: 'OS abertas',
+                click: () => relatorioOsAberta()
             },
             {
-                label: 'OS concluídas'
+                label: 'OS concluídas',
+                click: () => relatorioOsConcluida()
             }
         ]
     },
@@ -664,4 +666,157 @@ ipcMain.on('search-os', async (event) => {
 })
 
 // == Fim - Buscar OS - CRUD Read =============================
-// ============================================================
+
+async function relatorioOsAberta() {
+    try {
+        // Passo 1: Consultar o banco de dados e obter a listagem de clientes cadastrados por ordem alfabética
+        const osaberta = await osModel.find({statusOS:'Aberta'}).sort({ statusOS: 1 })
+        // teste de recebimento da listagem de clientes
+        //console.log(clientes)
+        // Passo 2:Formatação do documento pdf
+        // p - portrait | l - landscape | mm e a4 (folha A4 (210x297mm))
+        const doc = new jsPDF('p', 'mm', 'a4')
+        // Inserir imagem no documento pdf
+        // imagePath (caminho da imagem que será inserida no pdf)
+        // imageBase64 (uso da biblioteca fs par ler o arquivo no formato png)
+        const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logo.png')
+        const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' })
+        doc.addImage(imageBase64, 'PNG', 5, 8) //(5mm, 8mm x,y)
+        // definir o tamanho da fonte (tamanho equivalente ao word)
+        doc.setFontSize(18)
+        // escrever um texto (título)
+        doc.text("Relatório de Os Aberta", 14, 45)//x, y (mm)
+        // inserir a data atual no relatório
+        const dataAtual = new Date().toLocaleDateString('pt-BR')
+        doc.setFontSize(12)
+        doc.text(`Data: ${dataAtual}`, 165, 10)
+        // variável de apoio na formatação
+        let y = 60
+        doc.text("Status", 14, y)
+        doc.text("Cliente", 50, y)
+        doc.text("Tecnico Responsavel", 130, y)
+        y += 5
+        // desenhar uma linha
+        doc.setLineWidth(0.5) // expessura da linha
+        doc.line(10, y, 200, y) // 10 (inicio) ---- 200 (fim)
+
+        // renderizar os clientes cadastrados no banco
+        y += 10 // espaçamento da linha
+        // percorrer o vetor clientes(obtido do banco) usando o laço forEach (equivale ao laço for)
+        osaberta.forEach((c) => {
+            // adicionar outra página se a folha inteira for preenchida (estratégia é saber o tamnaho da folha)
+            // folha A4 y = 297mm
+            if (y > 280) {
+                doc.addPage()
+                y = 20 // resetar a variável y
+                // redesenhar o cabeçalho
+                doc.text("Status", 14, y)
+                doc.text("Cliente", 80, y)
+                doc.text("Tecnico Responsavel", 130, y)
+                y += 5
+                doc.setLineWidth(0.5)
+                doc.line(10, y, 200, y)
+                y += 10
+            }
+            doc.text(c.statusOS, 14, y),
+            doc.text(c.idCliente, 50, y),
+            doc.text(c.tecnico || "N/A", 130, y)
+
+                
+            y += 10 //quebra de linha
+        })
+
+        // Adicionar numeração automática de páginas
+        const paginas = doc.internal.getNumberOfPages()
+        for (let i = 1; i <= paginas; i++) {
+            doc.setPage(i)
+            doc.setFontSize(10)
+            doc.text(`Página ${i} de ${paginas}`, 105, 290, { align: 'center' })
+        }
+
+        // Definir o caminho do arquivo temporário e nome do arquivo
+        const tempDir = app.getPath('temp')
+        const filePath = path.join(tempDir, 'Osaberta.pdf')
+        // salvar temporariamente o arquivo
+        doc.save(filePath)
+        // abrir o arquivo no aplicativo padrão de leitura de pdf do computador do usuário
+        shell.openPath(filePath)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// == Fim - relatório de Os Concluída =============================
+
+async function relatorioOsConcluida() {
+    try {
+        // Passo 1: Consultar o banco de dados e obter a listagem de clientes cadastrados por ordem alfabética
+        const osconcluida = await osModel.find({statusOS:'Finalizada'}).sort({ statusOS: 1 })
+        // teste de recebimento da listagem de clientes
+        //console.log(clientes)
+        // Passo 2:Formatação do documento pdf
+        // p - portrait | l - landscape | mm e a4 (folha A4 (210x297mm))
+        const doc = new jsPDF('p', 'mm', 'a4')
+        // Inserir imagem no documento pdf
+        // imagePath (caminho da imagem que será inserida no pdf)
+        // imageBase64 (uso da biblioteca fs par ler o arquivo no formato png)
+        const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logo.png')
+        const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' })
+        doc.addImage(imageBase64, 'PNG', 5, 8) //(5mm, 8mm x,y)
+        // definir o tamanho da fonte (tamanho equivalente ao word)
+        doc.setFontSize(18)
+        // escrever um texto (título)
+        doc.text("Relatório de Os Concluída", 14, 45)//x, y (mm)
+        // inserir a data atual no relatório
+        const dataAtual = new Date().toLocaleDateString('pt-BR')
+        doc.setFontSize(12)
+        doc.text(`Data: ${dataAtual}`, 165, 10)
+        // variável de apoio na formatação
+        let y = 60
+        doc.text("Status", 14, y)
+        doc.text("Cliente", 50, y)
+        doc.text("Tecnico Responsavel", 130, y)
+        y += 5
+        doc.setLineWidth(0.5) // expessura da linha
+        doc.line(10, y, 200, y) // 10 (inicio) ---- 200 (fim)
+
+        y += 10 // espaçamento da linha
+        osconcluida.forEach((c) => {
+            if (y > 280) {
+                doc.addPage()
+                y = 20 // resetar a variável y
+                doc.text("Status", 14, y)
+                doc.text("Cliente", 80, y)
+                doc.text("Tecnico Responsavel", 130, y)
+                y += 5
+                doc.setLineWidth(0.5)
+                doc.line(10, y, 200, y)
+                y += 10
+            }
+            doc.text(c.statusOS, 14, y),
+            doc.text(c.idCliente, 50, y),
+            doc.text(c.tecnico || "N/A", 130, y)
+
+                
+            y += 10 //quebra de linha
+        })
+
+        // Adicionar numeração automática de páginas
+        const paginas = doc.internal.getNumberOfPages()
+        for (let i = 1; i <= paginas; i++) {
+            doc.setPage(i)
+            doc.setFontSize(10)
+            doc.text(`Página ${i} de ${paginas}`, 105, 290, { align: 'center' })
+        }
+
+        // Definir o caminho do arquivo temporário e nome do arquivo
+        const tempDir = app.getPath('temp')
+        const filePath = path.join(tempDir, 'Osconcluida.pdf')
+        doc.save(filePath)
+        shell.openPath(filePath)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// == Fim - relatório de Os Concluída =============================
