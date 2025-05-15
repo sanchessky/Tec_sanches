@@ -1,4 +1,53 @@
-// ===========================================================
+// == Variáveis gerais - OS ===================================
+
+let arrayOS = []
+
+let frmOS = document.getElementById('frmOS')
+let statusOS = document.getElementById('inputStatus')
+let celular = document.getElementById('inputcell')
+let serial = document.getElementById('inputImei')
+let problem = document.getElementById('inputProblem')
+let specialist = document.getElementById('inputSpecialist')
+let diagnosis = document.getElementById('inputDiagnosis')
+let parts = document.getElementById('inputParts')
+let total = document.getElementById('inputTotal')
+let idOS = document.getElementById('inputOS')
+let dateOS = document.getElementById('inputData')
+
+// ============================================================
+// == CRUD Create/Update ======================================
+
+frmOS.addEventListener('submit', async (event) => {
+    event.preventDefault()
+
+    if (idClient.value === "") {
+        api.validateClient()
+    } else {
+        console.log(idOS.value, idClient.value, statusOS.value, celular.value, serial.value, problem.value, specialist.value, diagnosis.value, parts.value, total.value)
+
+        const os = {
+            idClient_OS: idClient.value,
+            stat_OS: statusOS.value,
+            smart_OS: celular.value,
+            serial_OS: serial.value,
+            problem_OS: problem.value,
+            specialist_OS: specialist.value,
+            diagnosis_OS: diagnosis.value,
+            parts_OS: parts.value,
+            total_OS: total.value
+        }
+
+        if (idOS.value === "") {
+            api.newOS(os)
+        } else {
+            // Lógica para atualizar OS aqui
+        }
+    }
+})
+
+// == Fim CRUD Create/Update ==================================
+// ============================================================
+
 // == Busca avançada =========================================
 
 const input = document.getElementById('inputSearchClient')
@@ -54,60 +103,6 @@ document.addEventListener('click', (e) => {
 })
 
 // == Fim - busca avançada ===================================
-// ============================================================
-
-
-// ============================================================
-// == Variáveis gerais - OS ===================================
-
-let arrayOS = []
-
-let frmOS = document.getElementById('frmOS')
-let statusOS = document.getElementById('inputStatus')
-let celular = document.getElementById('inputcell')
-let serial = document.getElementById('inputImei')
-let problem = document.getElementById('inputProblem')
-let specialist = document.getElementById('inputSpecialist')
-let diagnosis = document.getElementById('inputDiagnosis')
-let parts = document.getElementById('inputParts')
-let total = document.getElementById('inputTotal')
-let idOS = document.getElementById('inputOS')
-let dateOS = document.getElementById('inputData')
-
-// ============================================================
-// == CRUD Create/Update ======================================
-
-frmOS.addEventListener('submit', async (event) => {
-    event.preventDefault()
-
-    if (idClient.value === "") {
-        api.validateClient()
-    } else {
-        console.log(idOS.value, idClient.value, statusOS.value, celular.value, serial.value, problem.value, specialist.value, diagnosis.value, parts.value, total.value)
-
-        const os = {
-            idClient_OS: idClient.value,
-            stat_OS: statusOS.value,
-            smart_OS: celular.value,
-            serial_OS: serial.value,
-            problem_OS: problem.value,
-            specialist_OS: specialist.value,
-            diagnosis_OS: diagnosis.value,
-            parts_OS: parts.value,
-            total_OS: total.value
-        }
-
-        if (idOS.value === "") {
-            api.newOS(os)
-        } else {
-            // Lógica para atualizar OS aqui
-        }
-    }
-})
-
-// == Fim CRUD Create/Update ==================================
-// ============================================================
-
 
 // == Buscar OS - CRUD Read ===================================
 
