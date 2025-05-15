@@ -452,10 +452,8 @@ ipcMain.on('search-name', async (event, name) => {
 })
 
 // == Fim - CRUD Read =========================================
-// ============================================================
 
 
-// ============================================================
 // == CRUD Delete =============================================
 
 ipcMain.on('delete-client', async (event, id) => {
@@ -481,10 +479,8 @@ ipcMain.on('delete-client', async (event, id) => {
 })
 
 // == Fim - CRUD Delete =======================================
-// ============================================================
 
 
-// ============================================================
 // == CRUD Update =============================================
 
 ipcMain.on('update-client', async (event, client) => {
@@ -531,16 +527,10 @@ ipcMain.on('update-client', async (event, client) => {
 })
 
 // == Fim - CRUD Update =======================================
-// ============================================================
 
 
 
-//************************************************************/
 //*******************  Ordem de Serviço  *********************/
-//************************************************************/
-
-
-// ============================================================
 // == Buscar cliente para vincular na OS ======================
 
 ipcMain.on('search-clients', async (event) => {
@@ -554,10 +544,7 @@ ipcMain.on('search-clients', async (event) => {
 })
 
 // == Fim - Buscar cliente para vincular na OS ================
-// ============================================================
 
-
-// ============================================================
 // == CRUD Create - Gerar OS ==================================
 
 // Validação de busca (preenchimento obrigatório Id Cliente-OS)
@@ -672,7 +659,7 @@ async function relatorioOsAberta() {
         // Passo 1: Consultar o banco de dados e obter a listagem de clientes cadastrados por ordem alfabética
         const osaberta = await osModel.find({statusOS:'Aberta'}).sort({ statusOS: 1 })
         // teste de recebimento da listagem de clientes
-        //console.log(clientes)
+        //console.log()
         // Passo 2:Formatação do documento pdf
         // p - portrait | l - landscape | mm e a4 (folha A4 (210x297mm))
         const doc = new jsPDF('p', 'mm', 'a4')
@@ -700,9 +687,9 @@ async function relatorioOsAberta() {
         doc.setLineWidth(0.5) // expessura da linha
         doc.line(10, y, 200, y) // 10 (inicio) ---- 200 (fim)
 
-        // renderizar os clientes cadastrados no banco
+        // renderizar as OS cadastrados no banco
         y += 10 // espaçamento da linha
-        // percorrer o vetor clientes(obtido do banco) usando o laço forEach (equivale ao laço for)
+        // percorrer o vetor osaberta(obtido do banco) usando o laço forEach (equivale ao laço for)
         osaberta.forEach((c) => {
             // adicionar outra página se a folha inteira for preenchida (estratégia é saber o tamnaho da folha)
             // folha A4 y = 297mm
@@ -753,7 +740,7 @@ async function relatorioOsConcluida() {
         // Passo 1: Consultar o banco de dados e obter a listagem de clientes cadastrados por ordem alfabética
         const osconcluida = await osModel.find({statusOS:'Finalizada'}).sort({ statusOS: 1 })
         // teste de recebimento da listagem de clientes
-        //console.log(clientes)
+        //console.log()
         // Passo 2:Formatação do documento pdf
         // p - portrait | l - landscape | mm e a4 (folha A4 (210x297mm))
         const doc = new jsPDF('p', 'mm', 'a4')
@@ -775,19 +762,20 @@ async function relatorioOsConcluida() {
         let y = 60
         doc.text("Status", 14, y)
         doc.text("Cliente", 50, y)
-        doc.text("Tecnico Responsavel", 130, y)
+        doc.text("Técnico Responsavel", 130, y)
         y += 5
         doc.setLineWidth(0.5) // expessura da linha
         doc.line(10, y, 200, y) // 10 (inicio) ---- 200 (fim)
 
         y += 10 // espaçamento da linha
+        // percorrer o vetor osconcluida(obtido do banco) usando o forEach (equivale ao laço for)
         osconcluida.forEach((c) => {
             if (y > 280) {
                 doc.addPage()
                 y = 20 // resetar a variável y
                 doc.text("Status", 14, y)
                 doc.text("Cliente", 80, y)
-                doc.text("Tecnico Responsavel", 130, y)
+                doc.text("Técnico Responsavel", 130, y)
                 y += 5
                 doc.setLineWidth(0.5)
                 doc.line(10, y, 200, y)
