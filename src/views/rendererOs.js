@@ -135,11 +135,6 @@ api.renderOS((event, dataOS) => {
     diagnosis.value = os.diagnostico
     parts.value = os.pecas
     total.value = os.valor
-    api.getClientById(os.idCliente, (event, clientData) => {
-        const client = JSON.parse(clientData)
-        nameClient.value = client.nomeCliente
-        phoneClient.value = client.foneCliente
-    })
 })
 
 
