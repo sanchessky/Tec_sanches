@@ -140,12 +140,31 @@ if (docInput) {
 }
 
 
+
 // vetor global que será usado na manipulação dos dados
 let arrayClient = []
 
 // capturar o foco na busca pelo nome do cliente
 // a constante foco obtem o elemento html (input) identificado como 'searchClient'
 const foco = document.getElementById('searchClient')
+
+/* Função para manipular o evento da tecla Enter no campo específico
+function teclaEnter(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Impede o submit padrão
+        buscarCliente(); // Chama a função de busca
+    }
+}
+
+// Adiciona o listener somente ao campo de entrada
+document.getElementById('inputNameClient').addEventListener('keydown', teclaEnter);
+
+// Função para restaurar o comportamento padrão, se necessário
+function restaurarEnter() {
+    document.getElementById('inputNameClient').removeEventListener('keydown', teclaEnter);
+}
+*/
+
 
 // Iniciar a janela de clientes alterando as propriedades de alguns elementos
 document.addEventListener('DOMContentLoaded', () => {
