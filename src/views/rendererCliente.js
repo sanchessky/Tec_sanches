@@ -148,23 +148,13 @@ let arrayClient = []
 // a constante foco obtem o elemento html (input) identificado como 'searchClient'
 const foco = document.getElementById('searchClient')
 
-/* Função para manipular o evento da tecla Enter no campo específico
+
 function teclaEnter(event) {
     if (event.key === "Enter") {
-        event.preventDefault(); // Impede o submit padrão
-        buscarCliente(); // Chama a função de busca
+        event.preventDefault()
+        buscarCliente()
     }
 }
-
-// Adiciona o listener somente ao campo de entrada
-document.getElementById('inputNameClient').addEventListener('keydown', teclaEnter);
-
-// Função para restaurar o comportamento padrão, se necessário
-function restaurarEnter() {
-    document.getElementById('inputNameClient').removeEventListener('keydown', teclaEnter);
-}
-*/
-
 
 // Iniciar a janela de clientes alterando as propriedades de alguns elementos
 document.addEventListener('DOMContentLoaded', () => {
@@ -190,7 +180,30 @@ let cityClient = document.getElementById('inputCityClient')
 let ufClient = document.getElementById('inputUFClient')
 let id = document.getElementById('idClient')
 
-// ============================================================
+
+
+
+// == Manipulação da tecla Enter ============================
+// Função para manipular o evento da tecla Enter
+function teclaEnter(event) {
+    // se a tecla Enter for pressionada
+    if (event.key === "Enter") {
+        event.preventDefault() // ignorar o comportamento padrão
+        // associar o Enter a busca pelo cliente
+        buscarCliente()
+    }
+}
+
+// Função para restaurar o padrão da tecla Enter (submit)
+function restaurarEnter() {
+    frmClient.removeEventListener('keydown', teclaEnter)
+}
+
+// "Escuta do evento Tecla Enter"
+frmClient.addEventListener('keydown', teclaEnter)
+
+// == Fim - manipulação tecla Enter ==========================
+
 // == CRUD Create/Update ======================================
 
 //Evento associado ao botão submit (uso das validações do html)
@@ -286,7 +299,7 @@ function buscarCliente() {
 
 
 }
-// == Fim CRUD Read===================================================================================================
+// == Fim CRUD Read================================================================
 // setar o cliente não cadastrado (recortar do campo de busca e colar no campo nome)
 api.setClient((args) => {
     let campoBusca = document.getElementById('searchClient').value.trim()
