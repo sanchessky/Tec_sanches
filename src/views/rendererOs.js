@@ -137,6 +137,21 @@ api.renderOS((event, dataOS) => {
     parts.value = os.pecas
     total.value = os.valor
 
+    api.searchClients() // pedir a lista de clientes
+
+    api.listClients((event, clients) => {
+        const listaClientes = JSON.parse(clients)
+        // procurar o cliente com o idCliente da OS
+        const clienteEncontrado = listaClientes.find(c => c._id === os.idCliente)
+        if (clienteEncontrado) {
+            nameClient.value = clienteEncontrado.nomeCliente
+            phoneClient.value = clienteEncontrado.foneCliente
+        } else {
+            nameClient.value = ''
+            phoneClient.value = ''
+        }
+    })
+
 })
 
 
