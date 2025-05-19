@@ -661,7 +661,7 @@ async function relatorioOsAberta() {
         const osaberta = await osModel.find({ statusOS: 'Aberta' }).sort({ statusOS: 1 })
 
         // Passo 2: Criação do documento PDF
-        const doc = new jsPDF('p', 'mm', 'a4')
+        const doc = new jsPDF('l', 'mm', 'a4')
 
         // Inserir imagem (logotipo)
         const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logo.png')
@@ -675,16 +675,21 @@ async function relatorioOsAberta() {
         // Data do relatório
         const dataAtual = new Date().toLocaleDateString('pt-BR')
         doc.setFontSize(12)
-        doc.text(`Data: ${dataAtual}`, 165, 10)
+        doc.text(`Data: ${dataAtual}`, 250, 10)
 
         // Cabeçalho da tabela
         let y = 60
-        doc.text("Cliente", 14, y)
-        doc.text("Data Abertura", 100, y)
-        doc.text("Técnico Responsável", 140, y)
+        doc.text("Ordem de Serviço", 14, y)
+        doc.text("Data Abertura", 75, y)
+        doc.text("Técnico Responsável", 110, y)
+        doc.text("Diagnóstico", 160, y)
+        doc.text("Peça", 220, y)
+
+        
+        
         y += 5
         doc.setLineWidth(0.5)
-        doc.line(10, y, 200, y)
+        doc.line(10, y, 290, y)
         y += 10
 
         // Renderizar dados das OS
@@ -692,12 +697,16 @@ async function relatorioOsAberta() {
             if (y > 280) {
                 doc.addPage()
                 y = 20
-                doc.text("Cliente", 14, y)
-                doc.text("Data Abertura", 100, y)
-                doc.text("Técnico Responsável", 140, y)
+                doc.text("Ordem de Serviço", 14, y)
+                doc.text("Data Abertura", 75, y)
+                doc.text("Técnico Responsável", 110, y)
+                doc.text("Diagnóstico", 160, y)
+                doc.text("Peça", 220, y)
+
+                
                 y += 5
                 doc.setLineWidth(0.5)
-                doc.line(10, y, 200, y)
+                doc.line(10, y, 290, y)
                 y += 10
             }
 
@@ -706,8 +715,10 @@ async function relatorioOsAberta() {
                 : "N/A"
 
             doc.text(c.idCliente, 14, y)
-            doc.text(dataEntrada, 100, y)
-            doc.text(c.tecnico || "N/A", 140, y)
+            doc.text(dataEntrada, 75, y)
+            doc.text(c.tecnico, 110, y)
+            doc.text(c.diagnostico, 160, y)
+            doc.text(c.pecas, 220, y)
 
             y += 10
         })
