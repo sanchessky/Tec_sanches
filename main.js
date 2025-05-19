@@ -657,90 +657,79 @@ ipcMain.on('search-os', async (event) => {
 
 async function relatorioOsAberta() {
     try {
-        // Passo 1: Consultar o banco de dados e obter as OS abertas
-        const osaberta = await osModel.find({ statusOS: 'Aberta' }).sort({ statusOS: 1 })
+      const osaberta = await osModel.find({ statusOS: 'Aberta' }).sort({ nomeCliente: 1 })
+      const clientes = await clientModel.find({})
+  
+      const doc = new jsPDF('l', 'mm', 'a4')
+  
+      // Logo
+      const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logo.png')
+      const imageBase64 = fs.readFileSync(imagePath, 'base64')
+      doc.addImage(imageBase64, 'PNG', 5, 8)
+  
+      // Título e data
+      doc.setFontSize(18)
+      doc.text("Relatório de OS Abertas", 14, 45)
+      doc.setFontSize(12)
+      doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 250, 10)
+  
+      // Cabeçalho
+      let y = 60
+      doc.text("Cliente", 14, y)
+      doc.text("Data", 75, y)
+      doc.text("Técnico",  110, y)
+      doc.text("Diagnóstico", 160, y)
+      doc.text("Peça", 220, y)
+      y += 5
+      doc.setLineWidth(0.5) // expessura da linha
+      doc.line(10, y, 280, y) // 10 (inicio) ---- 200 (fim)
 
-        // Passo 2: Criação do documento PDF
-        const doc = new jsPDF('l', 'mm', 'a4')
-
-        // Inserir imagem (logotipo)
-        const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logo.png')
-        const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' })
-        doc.addImage(imageBase64, 'PNG', 5, 8)
-
-        // Título
-        doc.setFontSize(18)
-        doc.text("Relatório de OS Abertas", 14, 45)
-
-        // Data do relatório
-        const dataAtual = new Date().toLocaleDateString('pt-BR')
-        doc.setFontSize(12)
-        doc.text(`Data: ${dataAtual}`, 250, 10)
-
-        // Cabeçalho da tabela
-        let y = 60
-        doc.text("Ordem de Serviço", 14, y)
-        doc.text("Data Abertura", 75, y)
-        doc.text("Técnico Responsável", 110, y)
-        doc.text("Diagnóstico", 160, y)
-        doc.text("Peça", 220, y)
-
-        
-        
-        y += 5
-        doc.setLineWidth(0.5)
-        doc.line(10, y, 290, y)
-        y += 10
-
-        // Renderizar dados das OS
-        osaberta.forEach((c) => {
-            if (y > 280) {
-                doc.addPage()
-                y = 20
-                doc.text("Ordem de Serviço", 14, y)
-                doc.text("Data Abertura", 75, y)
-                doc.text("Técnico Responsável", 110, y)
-                doc.text("Diagnóstico", 160, y)
-                doc.text("Peça", 220, y)
-
-                
-                y += 5
-                doc.setLineWidth(0.5)
-                doc.line(10, y, 290, y)
-                y += 10
-            }
-
-            const dataEntrada = c.dataEntrada
-                ? new Date(c.dataEntrada).toLocaleDateString('pt-BR')
-                : "N/A"
-
-            doc.text(c.idCliente, 14, y)
-            doc.text(dataEntrada, 75, y)
-            doc.text(c.tecnico, 110, y)
-            doc.text(c.diagnostico, 160, y)
-            doc.text(c.pecas, 220, y)
-
-            y += 10
-        })
-
-        // Paginação
-        const paginas = doc.internal.getNumberOfPages()
-        for (let i = 1; i <= paginas; i++) {
-            doc.setPage(i)
-            doc.setFontSize(10)
-            doc.text(`Página ${i} de ${paginas}`, 105, 290, { align: 'center' })
+      y += 5 // espaçamento da linha
+  
+      osaberta.forEach(os => {
+        if (y > 280) {
+          doc.addPage()
+          y = 20
+          doc.text("Cliente", 14, y)
+          doc.text("Data", 75, y)
+          doc.text("Técnico",  110, y)
+          doc.text("Diagnóstico", 160, y)
+          doc.text("Peça", 220, y)
+          y += 5
         }
-
-        // Salvar e abrir o arquivo temporário
-        const tempDir = app.getPath('temp')
-        const filePath = path.join(tempDir, 'Osaberta.pdf')
-        doc.save(filePath)
-        shell.openPath(filePath)
-
+  
+        const cliente = clientes.find(c => c._id.equals(os.idCliente))
+        const nomeCliente = cliente ? cliente.nomeCliente : ''
+  
+        //doc.text(os._id.toString(), 14, y)
+        doc.text(nomeCliente, 14, y)
+        doc.text(os.dataEntrada ? new Date(os.dataEntrada).toLocaleDateString('pt-BR') : 'N/A', 75, y)
+        doc.text(os.tecnico,  110, y)
+        doc.text(os.diagnostico , 160, y)
+        doc.text(os.pecas, 220, y)
+  
+        y += 5
+      })
+  
+      // Paginação
+      const paginas = doc.internal.getNumberOfPages()
+      for (let i = 1; i <= paginas; i++) {
+        doc.setPage(i)
+        doc.setFontSize(10)
+        doc.text(`Página ${i} de ${paginas}`, 105, 290, { align: 'center' })
+      }
+  
+      // Salvar e abrir
+      const tempDir = app.getPath('temp')
+      const filePath = path.join(tempDir, 'Osaberta.pdf')
+      doc.save(filePath)
+      shell.openPath(filePath)
+  
     } catch (error) {
-        console.log("Erro ao gerar relatório:", error)
+      console.error("Erro ao gerar relatório:", error)
     }
-}
+  }
+  
 
 // == Fim - relatório de Os Concluída =============================
 
