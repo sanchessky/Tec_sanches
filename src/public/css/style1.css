@@ -1,64 +1,50 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
-.container {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-}
-
-h2 {
-    text-align: center;
-    color: #333;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-.result {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #e7f7e7;
-    color: green;
-    border-radius: 4px;
+/* Ocultar a lupa (span dentro de input-group) */
+.input-group-text {
     display: none;
 }
 
-.error {
-    background-color: #f8d7da;
-    color: red;
+
+
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+label {
+    font-weight: 600;
+    color: #555;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+button.btn-success:hover {
+    background-color: #28a745cc;
+}
+
+button.btn-primary:hover {
+    background-color: #007bffcc;
+}
+
+button.btn-warning:hover {
+    background-color: #ffc107cc;
+}
+
+button.btn-danger:hover {
+    background-color: #dc3545cc;
+}
+
+button.btn-secondary:hover {
+    background-color: #6c757dcc;
 }

@@ -1,3 +1,11 @@
+// Iniciar a janela OS alterando as propriedades de alguns elementos
+document.addEventListener('DOMContentLoaded', () => {
+    // Desativar os botões
+    btnUpdate.disabled = true
+    btnDelete.disabled = true    
+})
+
+
 // == Variáveis gerais - OS ===================================
 
 let arrayOS = []
@@ -24,23 +32,42 @@ frmOS.addEventListener('submit', async (event) => {
         api.validateClient()
     } else {
         console.log(idOS.value, idClient.value, statusOS.value, celular.value, serial.value, problem.value, specialist.value, diagnosis.value, parts.value, total.value)
-
-        const os = {
-            idClient_OS: idClient.value,
-            stat_OS: statusOS.value,
-            smart_OS: celular.value,
-            serial_OS: serial.value,
-            problem_OS: problem.value,
-            specialist_OS: specialist.value,
-            diagnosis_OS: diagnosis.value,
-            parts_OS: parts.value,
-            total_OS: total.value
-        }
-
         if (idOS.value === "") {
+            //Gerar OS
+            //Criar um objeto para armazenar os dados da OS antes de enviar ao main
+            const os = {
+                idClient_OS: idClient.value,
+                stat_OS: statusOS.value,
+                smart_OS: celular.value,
+                serial_OS: serial.value,
+                problem_OS: problem.value,
+                specialist_OS: specialist.value,
+                diagnosis_OS: diagnosis.value,
+                parts_OS: parts.value,
+                total_OS: total.value
+            }
+            // Enviar ao main o objeto os - (Passo 2: fluxo)
+            // uso do preload.js
             api.newOS(os)
         } else {
-            // Lógica para atualizar OS aqui
+            //Editar OS
+            //Gerar OS
+            //Criar um objeto para armazenar os dados da OS antes de enviar ao main
+            const os = {
+                id_OS: idOS.value,
+                idClient_OS: idClient.value,
+                stat_OS: statusOS.value,
+                smart_OS: celular.value,
+                serial_OS: serial.value,
+                problem_OS: problem.value,
+                specialist_OS: specialist.value,
+                diagnosis_OS: diagnosis.value,
+                parts_OS: parts.value,
+                total_OS: total.value
+            }
+            // Enviar ao main o objeto os - (Passo 2: fluxo)
+            // uso do preload.js
+            api.updateOS(os)
         }
     }
 })
@@ -136,6 +163,13 @@ api.renderOS((event, dataOS) => {
     diagnosis.value = os.diagnostico
     parts.value = os.pecas
     total.value = os.valor
+
+        // desativar o botão adicionar
+        btnCreate.disabled = true
+        // ativar os botões editar e excluir
+        btnUpdate.disabled = false
+        btnDelete.disabled = false    
+
 
     api.searchClients() // pedir a lista de clientes
 

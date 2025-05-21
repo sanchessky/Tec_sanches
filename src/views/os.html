@@ -8,6 +8,8 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="../public/css/bootstrap.min.css">
     <!-- CSS personalizado -->
+    <link rel="stylesheet" href="../public/css/style1.css">
+
     <link rel="stylesheet" href="../public/css/style.css">
     <!-- impedir a execução de scripts externos ou não autorizados -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
@@ -127,10 +129,10 @@
             </div>
 
             <div class="mt-4 d-flex justify-content-center gap-1">
-                <button type="submit" class="btn btn-success">Gerar OS</button>
+                <button type="submit" class="btn btn-success" id="btnCreate">Gerar OS</button>
                 <button type="button" class="btn btn-primary" onclick="findOS()">Buscar OS</button>
-                <button type="submit" class="btn btn-warning">Editar OS</button>
-                <button type="button" class="btn btn-danger">Excluir OS</button>
+                <button type="submit" class="btn btn-warning" id="btnUpdate">Editar OS</button>
+                <button type="button" class="btn btn-danger" id="btnDelete" onclick="removeOS()">Excluir OS</button>
                 <button type="button" class="btn btn-secondary">Imprimir OS</button>
                 <button type="reset" class="btn" id="btnReset" onclick="resetForm()"></button>
         </form>
