@@ -208,8 +208,14 @@ frmClient.addEventListener('keydown', teclaEnter)
 
 //Evento associado ao botão submit (uso das validações do html)
 frmClient.addEventListener('submit', async (event) => {
+
     //evitar o comportamento padrão do submit que é enviar os dados do formulário e reiniciar o documento html
     event.preventDefault()
+    const documentoValido = validarDocumento();
+    if (!documentoValido) {
+        docInput.focus();
+        return; // Impede envio
+    }
     // Teste importante (recebimento dos dados do formuláro - passo 1 do fluxo)
     console.log(nameClient.value, cpfClient.value, emailClient.value, phoneClient.value, cepClient.value, addressClient.value, numberClient.value, complementClient.value, neighborhoodClient.value, cityClient.value, ufClient.value)
     if (id.value === "") {
@@ -248,6 +254,7 @@ frmClient.addEventListener('submit', async (event) => {
         }
         api.updateClient(client)
     }
+    
 })
 
 // == Fim CRUD Create/Update ==================================
