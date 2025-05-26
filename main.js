@@ -895,7 +895,15 @@ async function relatorioOsConcluida() {
         console.error("Erro ao gerar relatório:", error)
     }
 }
-
+//Erro cpf ou 
+ipcMain.on('show-error-box', (event, message) => {
+    dialog.showMessageBox({
+        type: 'error',
+        title: 'Erro',
+        message: message,
+        buttons: ['OK']
+    });
+});
 
 // == Fim - relatório de Os Concluída =============================
 
@@ -918,19 +926,66 @@ ipcMain.on('print-os', async (event) => {
             if (mongoose.Types.ObjectId.isValid(result)) {
                 try {
                     //Teste botão
-                      //console.log("imprimir OS")
+                    //console.log("imprimir OS")
                     const dataOS = await osModel.findById(result)
                     if (dataOS && dataOS !== null) {
                         console.log(dataOS) // teste importante
                         //extrair dados do cliente
                         const dataClient = await clientModel.find({
-                            
-                                _id: dataOS.idCliente
-                            
+
+                            _id: dataOS.idCliente
+
                         })
                         console.log(dataClient)
                         // Impressão (documento PDF) E termos de garantia
-                        
+                        // formatação do documento pdf
+                        const doc = new jsPDF('p', 'mm', 'a4')
+                        const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logo.png')
+                        const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' })
+                        doc.addImage(imageBase64, 'PNG', 5, 8)
+                        doc.setFontSize(18)
+                        doc.text("OS:", 14, 45) //x=14, y=45
+
+                        // Extração dos dados da OS e do cliente vinculado
+
+                        // Texto do termo de serviço
+                        doc.setFontSize(10)
+                        const termo = `
+Termo de Serviço e Garantia – Assistência Técnica de Celulares
+
+O cliente, ao assinar esta Ordem de Serviço, declara estar ciente e de acordo com os termos abaixo, autorizando a realização dos serviços técnicos no aparelho celular entregue:
+
+Diagnóstico e Orçamento
+A avaliação técnica e o orçamento são gratuitos somente em caso de aprovação do serviço. Caso o cliente opte por não realizar o reparo, poderá ser cobrada uma taxa de diagnóstico para cobrir os custos da análise técnica.
+
+Peças Substituídas
+As peças substituídas poderão ser descartadas pela assistência ou devolvidas ao cliente, mediante solicitação no momento da entrega do aparelho.
+
+Garantia
+A garantia dos serviços prestados e das peças trocadas é de 90 dias, conforme Art. 26 do Código de Defesa do Consumidor. A garantia cobre exclusivamente o reparo executado ou a peça substituída, desde que o equipamento não seja violado por terceiros, nem apresente danos físicos, queda, oxidação ou mau uso após o conserto.
+
+Responsabilidade sobre Dados
+A assistência técnica não se responsabiliza por perda de dados armazenados no aparelho, como fotos, contatos, aplicativos e arquivos. Recomenda-se fortemente que o cliente realize backup prévio.
+
+Prazo para Retirada do Aparelho
+O aparelho deve ser retirado em até 90 dias após a conclusão do serviço. Após esse prazo, conforme Art. 1.275 do Código Civil, o equipamento poderá estar sujeito à cobrança de armazenagem ou ao descarte/destinação adequada.
+
+Procedência de Peças
+As peças utilizadas são compatíveis e de procedência conhecida. Peças originais, quando disponíveis, podem ter prazo de entrega e valores diferenciados.
+
+Proteção de Dados Pessoais
+Os dados do cliente coletados nesta ordem de serviço são protegidos conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018) e serão utilizados apenas para fins técnicos e administrativos.`
+
+                        // Inserir o termo no PDF
+                        doc.text(termo, 14, 60, { maxWidth: 180 }) // x=14, y=60, largura máxima para quebrar o texto automaticamente
+
+                        // Definir o caminho do arquivo temporário e nome do arquivo
+                        const tempDir = app.getPath('temp')
+                        const filePath = path.join(tempDir, 'os.pdf')
+                        // salvar temporariamente o arquivo
+                        doc.save(filePath)
+                        // abrir o arquivo no aplicativo padrão de leitura de pdf do computador do usuário
+                        shell.openPath(filePath)
 
                     } else {
                         dialog.showMessageBox({

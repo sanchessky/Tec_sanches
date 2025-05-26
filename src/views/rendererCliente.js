@@ -213,6 +213,7 @@ frmClient.addEventListener('submit', async (event) => {
     event.preventDefault()
     const documentoValido = validarDocumento();
     if (!documentoValido) {
+        window.api.showErrorBox("CPF ou CNPJ inválido! Corrija antes de continuar.");
         docInput.focus();
         return; // Impede envio
     }
