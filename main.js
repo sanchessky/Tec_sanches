@@ -523,7 +523,6 @@ ipcMain.on('update-client', async (event, client) => {
                 event.reply('reset-form')
             }
         })
-
     } catch (error) {
         console.log(error)
     }
@@ -899,4 +898,42 @@ async function relatorioOsConcluida() {
 
 // == Fim - relatório de Os Concluída =============================
 
+// == Inicio Imprimir OS ================================================
+
+ipcMain.on('print-os', async (event) => {
+    prompt({
+        title: 'Imprimir OS',
+        label: 'Digite o número da OS:',
+        inputAttrs: {
+            type: 'text'
+        },
+        type: 'input',
+        width: 400,
+        height: 200
+    }).then(async (result) => {
+        // buscar OS pelo id (verificar formato usando o mongoose - importar no início do main)
+        if (result !== null) {
+            // Verificar se o ID é válido (uso do mongoose - não esquecer de importar)
+            if (mongoose.Types.ObjectId.isValid(result)) {
+                try {
+                    console.log("imprimir OS")
+                   
+                    
+                } catch (error) {
+                    console.log(error)
+                }
+            } else {
+                dialog.showMessageBox({
+                    type: 'error',
+                    title: "Atenção!",
+                    message: "Formato do número da OS inválido.\nVerifique e tente novamente.",
+                    buttons: ['OK']
+                })
+            }
+        }
+    })
+})
+
+
+// == Fim Imprimir OS ================================================
 
