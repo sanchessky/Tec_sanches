@@ -32,5 +32,6 @@ contextBridge.exposeInMainWorld('api', {
     deleteOS: (idOS) => ipcRenderer.send('delete-os', idOS),
     updateOS: (os) => ipcRenderer.send('update-os', os),
     printOS: () => ipcRenderer.send('print-os'),
-    cpfclient: () => ipcRenderer.send('cpf-client'),
+    
+
 })

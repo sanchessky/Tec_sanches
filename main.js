@@ -419,7 +419,7 @@ ipcMain.on('search-name', async (event, name) => {
             $or: [
                 { nomeCliente: new RegExp(name, 'i') },
                 { cpfCliente: new RegExp(name, 'i') }
-              ]
+            ]
         })
         console.log(dataClient) // teste passos 3 e 4 (importante!)
 
@@ -442,6 +442,7 @@ ipcMain.on('search-name', async (event, name) => {
                     event.reply('reset-form')
                 }
             })
+
         }
 
         // Passo 5:
@@ -644,15 +645,15 @@ ipcMain.on('update-os', async (event, os) => {
         const updateOS = await osModel.findByIdAndUpdate(
             os.id_OS,
             {
-            idCliente: os.idClient_OS,
-            statusOS: os.stat_OS,
-            celular: os.smart_OS,
-            serie: os.serial_OS,
-            problema: os.problem_OS,
-            tecnico: os.specialist_OS,
-            diagnostico: os.diagnosis_OS,
-            pecas: os.parts_OS,
-            valor: os.total_OS
+                idCliente: os.idClient_OS,
+                statusOS: os.stat_OS,
+                celular: os.smart_OS,
+                serie: os.serial_OS,
+                problema: os.problem_OS,
+                tecnico: os.specialist_OS,
+                diagnostico: os.diagnosis_OS,
+                pecas: os.parts_OS,
+                valor: os.total_OS
             },
             {
                 new: true
@@ -698,7 +699,7 @@ ipcMain.on('search-os', async (event) => {
             if (mongoose.Types.ObjectId.isValid(result)) {
                 try {
                     const dataOS = await osModel.findById(result)
-                    if (dataOS) {
+                    if (dataOS && dataOS !== null) {
                         console.log(dataOS) // teste importante
                         // enviando os dados da OS ao rendererOS
                         // OBS: IPC só trabalha com string, então é necessário converter o JSON para string JSON.stringify(dataOS)
@@ -752,7 +753,7 @@ async function relatorioOsAberta() {
         doc.text("Cliente", 14, y)
         doc.text("Telefone", 75, y)
         doc.text("Data", 110, y)
-        doc.text("Técnico",  140, y)
+        doc.text("Técnico", 140, y)
         doc.text("Diagnóstico", 165, y)
         doc.text("Peça", 220, y)
         y += 5
@@ -769,7 +770,7 @@ async function relatorioOsAberta() {
                 doc.text("Telefone", 75, y)
 
                 doc.text("Data", 110, y)
-                doc.text("Técnico",  140, y)
+                doc.text("Técnico", 140, y)
                 doc.text("Diagnóstico", 165, y)
                 doc.text("Peça", 220, y)
                 y += 5
@@ -785,8 +786,8 @@ async function relatorioOsAberta() {
             doc.text(nomeCliente, 14, y)
             doc.text(foneCliente, 75, y)
             doc.text(os.dataEntrada ? new Date(os.dataEntrada).toLocaleDateString('pt-BR') : 'N/A', 110, y)
-            doc.text(os.tecnico,  140, y)
-            doc.text(os.diagnostico , 165, y)
+            doc.text(os.tecnico, 140, y)
+            doc.text(os.diagnostico, 165, y)
             doc.text(os.pecas, 220, y)
 
             y += 5
@@ -836,7 +837,7 @@ async function relatorioOsConcluida() {
         doc.text("Cliente", 14, y)
         doc.text("Telefone", 75, y)
         doc.text("Data", 110, y)
-        doc.text("Técnico",  140, y)
+        doc.text("Técnico", 140, y)
         doc.text("Diagnóstico", 165, y)
         doc.text("Peça", 220, y)
         y += 5
@@ -853,7 +854,7 @@ async function relatorioOsConcluida() {
                 doc.text("Telefone", 75, y)
 
                 doc.text("Data", 110, y)
-                doc.text("Técnico",  140, y)
+                doc.text("Técnico", 140, y)
                 doc.text("Diagnóstico", 165, y)
                 doc.text("Peça", 220, y)
                 y += 5
@@ -869,8 +870,8 @@ async function relatorioOsConcluida() {
             doc.text(nomeCliente, 14, y)
             doc.text(foneCliente, 75, y)
             doc.text(os.dataEntrada ? new Date(os.dataEntrada).toLocaleDateString('pt-BR') : 'N/A', 110, y)
-            doc.text(os.tecnico,  140, y)
-            doc.text(os.diagnostico , 165, y)
+            doc.text(os.tecnico, 140, y)
+            doc.text(os.diagnostico, 165, y)
             doc.text(os.pecas, 220, y)
 
             y += 5
@@ -916,9 +917,30 @@ ipcMain.on('print-os', async (event) => {
             // Verificar se o ID é válido (uso do mongoose - não esquecer de importar)
             if (mongoose.Types.ObjectId.isValid(result)) {
                 try {
-                    console.log("imprimir OS")
-                   
-                    
+                    //Teste botão
+                      //console.log("imprimir OS")
+                    const dataOS = await osModel.findById(result)
+                    if (dataOS && dataOS !== null) {
+                        console.log(dataOS) // teste importante
+                        //extrair dados do cliente
+                        const dataClient = await clientModel.find({
+                            
+                                _id: dataOS.idCliente
+                            
+                        })
+                        console.log(dataClient)
+                        // Impressão (documento PDF) E termos de garantia
+                        
+
+                    } else {
+                        dialog.showMessageBox({
+                            type: 'warning',
+                            title: "Aviso!",
+                            message: "OS não encontrada",
+                            buttons: ['OK']
+                        })
+                    }
+
                 } catch (error) {
                     console.log(error)
                 }
