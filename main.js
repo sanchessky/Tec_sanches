@@ -472,7 +472,7 @@ ipcMain.on('delete-client', async (event, id) => {
             buttons: ['Cancelar', 'Excluir'] //[0, 1]
         })
         if (response === 1) {
-            console.log("teste do if de excluir")
+           //console.log("teste do if de excluir")
             //Passo 3 - Excluir o registro do cliente
             const delClient = await clientModel.findByIdAndDelete(id)
             event.reply('reset-form')
@@ -937,47 +937,68 @@ ipcMain.on('print-os', async (event) => {
 
                         })
                         console.log(dataClient)
-                        // Impressão (documento PDF) E termos de garantia
                         // formatação do documento pdf
                         const doc = new jsPDF('p', 'mm', 'a4')
                         const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logo.png')
                         const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' })
-                        doc.addImage(imageBase64, 'PNG', 5, 8)
+                        doc.addImage(imageBase64, 'PNG', 80, 8)
+                        doc.setFontSize(12)
+                        const dataAtual = new Date().toLocaleDateString('pt-BR')
+                        doc.text(`Data: ${dataAtual}`, 165, 10)
                         doc.setFontSize(18)
-                        doc.text("OS:", 14, 45) //x=14, y=45
+                        doc.text("Ordem de Serviço:", 25, 45)
+                        doc.text(String(dataOS.id), 83, 45) //x=14, y=45
+                        doc.setFontSize(12)
 
-                        // Extração dos dados da OS e do cliente vinculado
+                        // Extração dos dados do cliente vinculado a OS
+                        dataClient.forEach((c) => {
+                            doc.text("Cliente:", 14, 65),
+                                doc.text(c.nomeCliente, 29, 65),
+                                doc.text("Telefone:", 62, 65),
+                                doc.text(c.foneCliente, 81, 65),
+                                doc.text("E-mail:", 113, 65),
+                              doc.text(c.emailCliente || "N/A", 127, 65),
+                              doc.text("Celular:", 14, 80),
+                              doc.text("Problema:", 62, 80),
+                              doc.text("Assinatura:___________________ ", 30, 230),
+                              doc.text("CPF:", 120, 230),
+                              doc.text(c.cpfCliente, 130, 230),
+                              doc.text("Senha:\nO O O O\nO O O O\nO O O O\nO O O O", 14, 100)
+                              
+                            //...
+                        })
 
+
+                        // Extração dos dados da OS                        
+                        doc.text(String(dataOS.celular), 29, 80)
+                        
+                        doc.text(String(dataOS.problema), 81, 80)
                         // Texto do termo de serviço
                         doc.setFontSize(10)
                         const termo = `
-Termo de Serviço e Garantia – Assistência Técnica de Celulares
 
-O cliente, ao assinar esta Ordem de Serviço, declara estar ciente e de acordo com os termos abaixo, autorizando a realização dos serviços técnicos no aparelho celular entregue:
 
-Diagnóstico e Orçamento
-A avaliação técnica e o orçamento são gratuitos somente em caso de aprovação do serviço. Caso o cliente opte por não realizar o reparo, poderá ser cobrada uma taxa de diagnóstico para cobrir os custos da análise técnica.
+                        Termo de Serviço e Garantia – Assistência Técnica de Celulares
 
-Peças Substituídas
-As peças substituídas poderão ser descartadas pela assistência ou devolvidas ao cliente, mediante solicitação no momento da entrega do aparelho.
+Ao assinar a Ordem de Serviço, o cliente autoriza o reparo e concorda com os termos abaixo:
 
-Garantia
-A garantia dos serviços prestados e das peças trocadas é de 90 dias, conforme Art. 26 do Código de Defesa do Consumidor. A garantia cobre exclusivamente o reparo executado ou a peça substituída, desde que o equipamento não seja violado por terceiros, nem apresente danos físicos, queda, oxidação ou mau uso após o conserto.
-
-Responsabilidade sobre Dados
-A assistência técnica não se responsabiliza por perda de dados armazenados no aparelho, como fotos, contatos, aplicativos e arquivos. Recomenda-se fortemente que o cliente realize backup prévio.
-
-Prazo para Retirada do Aparelho
-O aparelho deve ser retirado em até 90 dias após a conclusão do serviço. Após esse prazo, conforme Art. 1.275 do Código Civil, o equipamento poderá estar sujeito à cobrança de armazenagem ou ao descarte/destinação adequada.
-
-Procedência de Peças
-As peças utilizadas são compatíveis e de procedência conhecida. Peças originais, quando disponíveis, podem ter prazo de entrega e valores diferenciados.
-
-Proteção de Dados Pessoais
-Os dados do cliente coletados nesta ordem de serviço são protegidos conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018) e serão utilizados apenas para fins técnicos e administrativos.`
+Diagnóstico: Gratuito apenas se o serviço for aprovado. Caso contrário, pode haver cobrança.
+(Art. 421 do Código Civil)
+Peças Substituídas: Podem ser descartadas ou devolvidas, se solicitado.
+(Art. 740 do Código Civil)
+Garantia: 90 dias para serviços e peças, cobrindo apenas o item reparado. Perde validade com mau uso, violação, queda ou oxidação.
+(Art. 26, I do CDC)
+Perda de Dados: A assistência não se responsabiliza. Recomenda-se backup antes do serviço.
+(Art. 6º, III do CDC)
+Retirada do Aparelho: Deve ocorrer em até 90 dias após o conserto. Após isso, podem ser cobradas taxas ou ocorrer descarte.
+(Art. 1.275, III do Código Civil)
+Peças Utilizadas: Compatíveis e de procedência conhecida. Peças originais podem ter custos e prazos diferentes.
+(Art. 6º, I do CDC)
+Dados Pessoais: Protegidos pela LGPD e usados apenas para fins técnicos e administrativos.
+(Lei nº 13.709/2018 – LGPD)`
 
                         // Inserir o termo no PDF
-                        doc.text(termo, 14, 60, { maxWidth: 180 }) // x=14, y=60, largura máxima para quebrar o texto automaticamente
+                        doc.text(termo, 14, 130, { maxWidth: 180 }) // x=14, y=60, largura máxima para quebrar o texto automaticamente
 
                         // Definir o caminho do arquivo temporário e nome do arquivo
                         const tempDir = app.getPath('temp')

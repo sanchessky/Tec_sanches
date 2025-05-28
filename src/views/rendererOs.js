@@ -169,7 +169,8 @@ api.renderOS((event, dataOS) => {
         // ativar os botões editar e excluir
         btnUpdate.disabled = false
         btnDelete.disabled = false    
-
+        //Desativar o campo de busca
+        inputSearchClient.disabled =true
 
     api.searchClients() // pedir a lista de clientes
 
