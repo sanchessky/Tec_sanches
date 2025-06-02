@@ -52,6 +52,6 @@ O **Tec_Sanches** é um sistema de gerenciamento interno voltado para controle d
 ![Relatório OS Finalizada](src/public/img/RelatorioOsFinalizada.png)
 
 ### Impressão de Ordem de Serviço
-![Ordem de Serviço Impressa](src/public/img/OrdemService.png)
+![Ordem de Serviço Impressa](src/public/img/OrdemService.PNG)
 
 
