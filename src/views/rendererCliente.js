@@ -13,7 +13,7 @@ function buscarCEP() {
 }
 
 function aplicarMascaraCPF(campo) {
-    let cpf = campo.value.replace(/\D/g, "").slice(0, 11); 
+    let cpf = campo.value.replace(/\D/g, "").slice(0, 11);
     if (cpf.length > 9) {
         campo.value = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, "$1.$2.$3-$4");
     } else if (cpf.length > 6) {
@@ -222,7 +222,7 @@ function buscarCliente() {
         api.validateSearch()
         foco.focus()
     } else {
-        api.searchName(name) 
+        api.searchName(name)
         api.renderClient((event, dataClient) => {
             const dadosCliente = JSON.parse(dataClient)
             arrayClient = dadosCliente
@@ -268,7 +268,7 @@ api.setClient((args) => {
 })
 
 function apagarCliente() {
-    api.deleteClient(id.value) 
+    api.deleteClient(id.value)
 
 }
 function resetForm() {

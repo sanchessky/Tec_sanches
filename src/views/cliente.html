@@ -12,12 +12,12 @@
     <div class="container">
         <form id="frmClient" class="mt-2 row g-3">
             <div class="col-md-6">
-                <input type="text" class="form-control" id="searchClient" maxlength="30" spellcheck="false" >
+                <input type="text" class="form-control" id="searchClient" maxlength="30" spellcheck="false">
             </div>
             <div class="col-md-4">
-                <button type="button" class="btn btn-dark" id="btnRead" onclick="buscarCliente()" >Buscar</button>
+                <button type="button" class="btn btn-dark" id="btnRead" onclick="buscarCliente()">Buscar</button>
             </div>
-            <hr class="mt-4 border border-primary border -1" >
+            <hr class="mt-4 border border-primary border -1">
             <input type="text" id="idClient">
             <div class="col-md-7">
                 <label for="inputNameClient" class="form-label">Nome</label>
@@ -25,7 +25,7 @@
             </div>
             <div class="col-md-5">
                 <label for="inputCPFClient" class="form-label">CPF/CPNJ</label>
-                <input type="text" class="form-control" id="inputCPFClient" spellcheck="false"  required maxlength="18">
+                <input type="text" class="form-control" id="inputCPFClient" spellcheck="false" required maxlength="18">
             </div>
             <div class="col-md-6">
                 <label for="inputEmailClient" class="form-label">E-mail</label>
@@ -33,33 +33,38 @@
             </div>
             <div class="col-md-4">
                 <label for="inputPhoneClient" class="form-label">Telefone</label>
-                <input type="text" class="form-control" id="inputPhoneClient" spellcheck="false" required maxlength="15">
+                <input type="text" class="form-control" id="inputPhoneClient" spellcheck="false" required
+                    maxlength="15">
             </div>
-             <div class="col-md-2">
+            <div class="col-md-2">
                 <label for="inputCEPClient" class="form-label">CEP</label>
-                <input type="text" class="form-control" id="inputCEPClient" spellcheck="false" required maxlength="10" onblur="buscarCEP()">
+                <input type="text" class="form-control" id="inputCEPClient" spellcheck="false" required maxlength="10"
+                    onblur="buscarCEP()">
             </div>
             <div class="col-md-6">
                 <label for="inputAddressClient" class="form-label">Logradouro</label>
-                <input type="text" class="form-control" id="inputAddressClient" spellcheck="false" required maxlength="30">
+                <input type="text" class="form-control" id="inputAddressClient" spellcheck="false" required
+                    maxlength="30">
             </div>
             <div class="col-md-3">
                 <label for="inputNumberClient" class="form-label">Número</label>
-                <input type="text" class="form-control" id="inputNumberClient" spellcheck="false" required maxlength="5">
+                <input type="text" class="form-control" id="inputNumberClient" spellcheck="false" required
+                    maxlength="5">
             </div>
-              <div class="col-md-3">
+            <div class="col-md-3">
                 <label for="inputComplementClient" class="form-label">Complemento</label>
-                <input type="text" class="form-control" id="inputComplementClient" spellcheck="false"  maxlength="10">
+                <input type="text" class="form-control" id="inputComplementClient" spellcheck="false" maxlength="10">
             </div>
             <div class="col-md-5">
                 <label for="inputNeighborhoodClient" class="form-label">Bairro</label>
-                <input type="text" class="form-control" id="inputNeighborhoodClient" spellcheck="false" required maxlength="30">
+                <input type="text" class="form-control" id="inputNeighborhoodClient" spellcheck="false" required
+                    maxlength="30">
             </div>
-               <div class="col-md-4">
+            <div class="col-md-4">
                 <label for="inputCityClient" class="form-label">Cidade</label>
                 <input type="text" class="form-control" id="inputCityClient" spellcheck="false" required maxlength="30">
             </div>
-             <div class="col-md-3">
+            <div class="col-md-3">
                 <label for="inputUFClient" class="form-label">UF</label>
                 <select id="inputUFClient" class="form-select" required>
                     <option value="" disabled selected></option>
@@ -91,17 +96,17 @@
                     <option value="SE">Sergipe (SE)</option>
                     <option value="TO">Tocantins (TO)</option>
                 </select>
-             </div>
-             <div class="mt-5" >
+            </div>
+            <div class="mt-5">
                 <button type="submit" class="btn btn-primary" id="btnCreate">Adiconar</button>
                 <button type="submit" class="btn btn-primary" id="btnUpdate">Editar</button>
                 <button type="button" class="btn btn-danger" id="btnDelete" onclick="apagarCliente()">Excluir</button>
                 <button type="reset" class="btn" id="btnReset" onclick="resetForm()"></button>
-             </div>
+            </div>
         </form>
     </div>
-    
     <script src="../public/js/bootstrap.bundle.min.js"></script>
     <script src="rendererCliente.js"></script>
 </body>
+
 </html>
