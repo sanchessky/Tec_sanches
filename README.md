@@ -30,28 +30,28 @@ O **Tec_Sanches** é um sistema de gerenciamento interno voltado para controle d
 ## 🖼️ Capturas de Tela
 
 ### Tela Inicial
-![Tela Inicial](/src/public/img/TelaInicio.png)
+![Tela Inicial](src/public/img/TelaInicio.png)
 
 ### Cadastro de Clientes
-![Tela Cadastro](/src/public/img/TelaCadastro.png)
-![Tela Cadastro 1](/src/public/img/TelaCadastro1.png)
+![Tela Cadastro](src/public/img/TelaCadastro.png)
+![Tela Cadastro 1](src/public/img/TelaCadastro1.png)
 
 ### Ordem de Serviço
-![Tela Ordem](/src/public/img/TelaOrdem.png)
-![Tela Ordem 2](/src/public/img/TelaOrdem2.png)
-![Tela Ordem 1](/src/public/img/TelaOrdem1.png)
+![Tela Ordem](src/public/img/TelaOrdem.png)
+![Tela Ordem 2](src/public/img/TelaOrdem2.png)
+![Tela Ordem 1](src/public/img/TelaOrdem1.png)
 
 ### Relatórios
 #### Clientes
-![Relatório Cliente](/src/public/img/RelatorioCliente.png)
+![Relatório Cliente](src/public/img/RelatorioCliente.png)
 
 #### OS Abertas
-![Relatório OS Aberta](/src/public/img/RelatorioOsAberta.png)
+![Relatório OS Aberta](src/public/img/RelatorioOsAberta.png)
 
 #### OS Finalizadas
-![Relatório OS Finalizada](/src/public/img/RelatorioOsFinalizada.png)
+![Relatório OS Finalizada](src/public/img/RelatorioOsFinalizada.png)
 
 ### Impressão de Ordem de Serviço
-![Ordem de Serviço Impressa](/src/public/img/OrdemService.png)
+![Ordem de Serviço Impressa](src/public/img/OrdemService.png)
 
 
