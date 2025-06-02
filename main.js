@@ -1,23 +1,12 @@
-console.log("Processo principal")
-
 const { app, BrowserWindow, nativeTheme, Menu, ipcMain, dialog, shell } = require('electron')
-
 const path = require('node:path')
-
 const { conectar, desconectar } = require('./database.js')
-
 const mongoose = require('mongoose')
-
 const clientModel = require('./src/models/Clientes.js')
-
 const osModel = require('./src/models/OS.js')
-
 const { jspdf, default: jsPDF } = require('jspdf')
-
 const fs = require('fs')
-
 const prompt = require('electron-prompt')
-
 let win
 const createWindow = () => {
     nativeTheme.themeSource = 'light'
@@ -29,12 +18,9 @@ const createWindow = () => {
             preload: path.join(__dirname, 'preload.js')
         }
     })
-
     Menu.setApplicationMenu(Menu.buildFromTemplate(template))
-
     win.loadFile('./src/views/index.html')
 }
-
 function aboutWindow() {
     nativeTheme.themeSource = 'light'
     const main = BrowserWindow.getFocusedWindow()
@@ -52,7 +38,6 @@ function aboutWindow() {
     }
     about.loadFile('./src/views/sobre.html')
 }
-
 let client
 function clientWindow() {
     nativeTheme.themeSource = 'light'
@@ -71,7 +56,6 @@ function clientWindow() {
     client.loadFile('./src/views/cliente.html')
     client.center()
 }
-
 let os
 function osWindow() {
     nativeTheme.themeSource = 'light'
@@ -91,10 +75,8 @@ function osWindow() {
     os.loadFile('./src/views/os.html')
     os.center()
 }
-
 app.whenReady().then(() => {
     createWindow()
-
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
             createWindow()
@@ -107,9 +89,7 @@ app.on('window-all-closed', () => {
         app.quit()
     }
 })
-
 app.commandLine.appendSwitch('log-level', '3')
-
 ipcMain.on('db-connect', async (event) => {
     let conectado = await conectar()
     if (conectado) {
@@ -118,11 +98,9 @@ ipcMain.on('db-connect', async (event) => {
         }, 500)
     }
 })
-
 app.on('before-quit', () => {
     desconectar()
 })
-
 const template = [
     {
         label: 'Cadastro',
@@ -189,16 +167,12 @@ const template = [
         ]
     }
 ]
-
 ipcMain.on('client-window', () => {
     clientWindow()
 })
-
 ipcMain.on('os-window', () => {
     osWindow()
 })
-
-
 ipcMain.on('new-client', async (event, client) => {
     try {
         const newClient = new clientModel({
@@ -240,9 +214,6 @@ ipcMain.on('new-client', async (event, client) => {
         console.log(error)
     }
 })
-
-
-
 async function relatorioClientes() {
     try {
         const clientes = await clientModel.find().sort({ nomeCliente: 1 })
@@ -263,7 +234,6 @@ async function relatorioClientes() {
         y += 5
         doc.setLineWidth(0.5)
         doc.line(10, y, 200, y)
-
         y += 10
         clientes.forEach((c) => {
             if (y > 280) {
@@ -282,7 +252,6 @@ async function relatorioClientes() {
                 doc.text(c.emailCliente || "N/A", 130, y)
             y += 10
         })
-
         const paginas = doc.internal.getNumberOfPages()
         for (let i = 1; i <= paginas; i++) {
             doc.setPage(i)
@@ -298,8 +267,6 @@ async function relatorioClientes() {
         console.log(error)
     }
 }
-
-
 ipcMain.on('validate-search', () => {
     dialog.showMessageBox({
         type: 'warning',
@@ -308,9 +275,7 @@ ipcMain.on('validate-search', () => {
         buttons: ['OK']
     })
 })
-
 ipcMain.on('search-name', async (event, name) => {
-
     try {
         const dataClient = await clientModel.find({
             $or: [
@@ -318,8 +283,6 @@ ipcMain.on('search-name', async (event, name) => {
                 { cpfCliente: new RegExp(name, 'i') }
             ]
         })
-
-
         if (dataClient.length === 0) {
             dialog.showMessageBox({
                 type: 'warning',
@@ -334,16 +297,12 @@ ipcMain.on('search-name', async (event, name) => {
                     event.reply('reset-form')
                 }
             })
-
         }
-
         event.reply('render-client', JSON.stringify(dataClient))
-
     } catch (error) {
         console.log(error)
     }
 })
-
 ipcMain.on('delete-client', async (event, id) => {
     try {
         const { response } = await dialog.showMessageBox(client, {
@@ -361,7 +320,6 @@ ipcMain.on('delete-client', async (event, id) => {
         console.log(error)
     }
 })
-
 ipcMain.on('update-client', async (event, client) => {
     try {
         const updateClient = await clientModel.findByIdAndUpdate(
@@ -397,17 +355,14 @@ ipcMain.on('update-client', async (event, client) => {
         console.log(error)
     }
 })
-
 ipcMain.on('search-clients', async (event) => {
     try {
         const clients = await clientModel.find().sort({ nomeCliente: 1 })
-
         event.reply('list-clients', JSON.stringify(clients))
     } catch (error) {
         console.log(error)
     }
 })
-
 ipcMain.on('validate-client', (event) => {
     dialog.showMessageBox({
         type: 'warning',
@@ -420,7 +375,6 @@ ipcMain.on('validate-client', (event) => {
         }
     })
 })
-
 ipcMain.on('new-os', async (event, os) => {
     console.log(os)
     try {
@@ -450,9 +404,6 @@ ipcMain.on('new-os', async (event, os) => {
         console.log(error)
     }
 })
-
-
-
 ipcMain.on('delete-os', async (event, idOS) => {
     try {
         const { response } = await dialog.showMessageBox(osScreen, {
@@ -469,9 +420,6 @@ ipcMain.on('delete-os', async (event, idOS) => {
         console.log(error)
     }
 })
-
-
-
 ipcMain.on('update-os', async (event, os) => {
     try {
         const updateOS = await osModel.findByIdAndUpdate(
@@ -505,9 +453,6 @@ ipcMain.on('update-os', async (event, os) => {
         console.log(error)
     }
 })
-
-
-
 ipcMain.on('search-os', async (event) => {
     prompt({
         title: 'Buscar OS',
@@ -548,25 +493,18 @@ ipcMain.on('search-os', async (event) => {
         }
     })
 })
-
-
-
 async function relatorioOsAberta() {
     try {
         const osaberta = await osModel.find({ statusOS: 'Aberta' }).sort({ nomeCliente: 1 })
         const clientes = await clientModel.find({})
-
         const doc = new jsPDF('l', 'mm', 'a4')
-
         const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logo.png')
         const imageBase64 = fs.readFileSync(imagePath, 'base64')
         doc.addImage(imageBase64, 'PNG', 5, 8)
-
         doc.setFontSize(18)
         doc.text("Relatório de OS Abertas", 100, 30)
         doc.setFontSize(12)
         doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 250, 10)
-
         let y = 60
         doc.text("Cliente", 14, y)
         doc.text("Telefone", 75, y)
@@ -577,73 +515,57 @@ async function relatorioOsAberta() {
         y += 5
         doc.setLineWidth(0.5)
         doc.line(10, y, 280, y)
-
         y += 5
-
         osaberta.forEach(os => {
             if (y > 280) {
                 doc.addPage()
                 y = 20
                 doc.text("Cliente", 14, y)
                 doc.text("Telefone", 75, y)
-
                 doc.text("Data", 110, y)
                 doc.text("Técnico", 140, y)
                 doc.text("Diagnóstico", 165, y)
                 doc.text("Peça", 220, y)
                 y += 5
             }
-
             const cliente = clientes.find(c => c._id.equals(os.idCliente))
             const nomeCliente = cliente ? cliente.nomeCliente : ''
             const telefone = clientes.find(c => c._id.equals(os.idCliente))
             const foneCliente = telefone ? telefone.foneCliente : ''
-
-
             doc.text(nomeCliente, 14, y)
             doc.text(foneCliente, 75, y)
             doc.text(os.dataEntrada ? new Date(os.dataEntrada).toLocaleDateString('pt-BR') : 'N/A', 110, y)
             doc.text(os.tecnico, 140, y)
             doc.text(os.diagnostico, 165, y)
             doc.text(os.pecas, 220, y)
-
             y += 5
         })
-
         const paginas = doc.internal.getNumberOfPages()
         for (let i = 1; i <= paginas; i++) {
             doc.setPage(i)
             doc.setFontSize(10)
             doc.text(`Página ${i} de ${paginas}`, 105, 290, { align: 'center' })
         }
-
         const tempDir = app.getPath('temp')
         const filePath = path.join(tempDir, 'Osaberta.pdf')
         doc.save(filePath)
         shell.openPath(filePath)
-
     } catch (error) {
         console.error("Erro ao gerar relatório:", error)
     }
 }
-
-
 async function relatorioOsConcluida() {
     try {
         const osconcluida = await osModel.find({ statusOS: 'Finalizada' }).sort({ nomeCliente: 1 })
         const clientes = await clientModel.find({})
-
         const doc = new jsPDF('l', 'mm', 'a4')
-
         const imagePath = path.join(__dirname, 'src', 'public', 'img', 'logo.png')
         const imageBase64 = fs.readFileSync(imagePath, 'base64')
         doc.addImage(imageBase64, 'PNG', 5, 8)
-
         doc.setFontSize(18)
         doc.text("Relatório de Os Concluída", 100, 30)
         doc.setFontSize(12)
         doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, 250, 10)
-
         let y = 60
         doc.text("Cliente", 14, y)
         doc.text("Telefone", 75, y)
@@ -654,51 +576,41 @@ async function relatorioOsConcluida() {
         y += 5
         doc.setLineWidth(0.5)
         doc.line(10, y, 280, y)
-
         y += 5
-
         osconcluida.forEach(os => {
             if (y > 280) {
                 doc.addPage()
                 y = 20
                 doc.text("Cliente", 14, y)
                 doc.text("Telefone", 75, y)
-
                 doc.text("Data", 110, y)
                 doc.text("Técnico", 140, y)
                 doc.text("Diagnóstico", 165, y)
                 doc.text("Peça", 220, y)
                 y += 5
             }
-
             const cliente = clientes.find(c => c._id.equals(os.idCliente))
             const nomeCliente = cliente ? cliente.nomeCliente : ''
             const telefone = clientes.find(c => c._id.equals(os.idCliente))
             const foneCliente = telefone ? telefone.foneCliente : ''
-
-
             doc.text(nomeCliente, 14, y)
             doc.text(foneCliente, 75, y)
             doc.text(os.dataEntrada ? new Date(os.dataEntrada).toLocaleDateString('pt-BR') : 'N/A', 110, y)
             doc.text(os.tecnico, 140, y)
             doc.text(os.diagnostico, 165, y)
             doc.text(os.pecas, 220, y)
-
             y += 5
         })
-
         const paginas = doc.internal.getNumberOfPages()
         for (let i = 1; i <= paginas; i++) {
             doc.setPage(i)
             doc.setFontSize(10)
             doc.text(`Página ${i} de ${paginas}`, 105, 290, { align: 'center' })
         }
-
         const tempDir = app.getPath('temp')
         const filePath = path.join(tempDir, 'Osaberta.pdf')
         doc.save(filePath)
         shell.openPath(filePath)
-
     } catch (error) {
         console.error("Erro ao gerar relatório:", error)
     }
@@ -711,8 +623,6 @@ ipcMain.on('show-error-box', (event, message) => {
         buttons: ['OK']
     });
 });
-
-
 ipcMain.on('print-os', async (event) => {
     prompt({
         title: 'Imprimir OS',
@@ -731,9 +641,7 @@ ipcMain.on('print-os', async (event) => {
                     if (dataOS && dataOS !== null) {
                         console.log(dataOS)
                         const dataClient = await clientModel.find({
-
                             _id: dataOS.idCliente
-
                         })
                         console.log(dataClient)
                         const doc = new jsPDF('p', 'mm', 'a4')
@@ -747,12 +655,9 @@ ipcMain.on('print-os', async (event) => {
                         doc.text("Ordem de Serviço:", 25, 45)
                         doc.text(String(dataOS.id), 83, 45)
                         doc.setFontSize(12)
-
                         const imageMarc = path.join(__dirname, 'src', 'public', 'img', 'marcartela.png')
                         const imageBase1 = fs.readFileSync(imageMarc, { encoding: 'base64' })
                         doc.addImage(imageBase1, 'PNG', 14, 85)
-
-
                         dataClient.forEach((c) => {
                             doc.text("Cliente:", 14, 65),
                                 doc.text(c.nomeCliente, 29, 65),
@@ -765,17 +670,11 @@ ipcMain.on('print-os', async (event) => {
                                 doc.text("Assinatura:___________________ ", 30, 230),
                                 doc.text("CPF:", 120, 230),
                                 doc.text(c.cpfCliente, 130, 230)
-
                         })
-
-
                         doc.text(String(dataOS.celular), 29, 80)
-
                         doc.text(String(dataOS.problema), 81, 80)
                         doc.setFontSize(10)
                         const termo = `
-
-
                         Termo de Serviço e Garantia – Assistência Técnica de Celulares
 
 Ao assinar a Ordem de Serviço, o cliente autoriza o reparo e concorda com os termos abaixo:
@@ -794,14 +693,11 @@ Peças Utilizadas: Compatíveis e de procedência conhecida. Peças originais po
 (Art. 6º, I do CDC)
 Dados Pessoais: Protegidos pela LGPD e usados apenas para fins técnicos e administrativos.
 (Lei nº 13.709/2018 – LGPD)`
-
                         doc.text(termo, 14, 130, { maxWidth: 180 })
-
                         const tempDir = app.getPath('temp')
                         const filePath = path.join(tempDir, 'os.pdf')
                         doc.save(filePath)
                         shell.openPath(filePath)
-
                     } else {
                         dialog.showMessageBox({
                             type: 'warning',
@@ -810,7 +706,6 @@ Dados Pessoais: Protegidos pela LGPD e usados apenas para fins técnicos e admin
                             buttons: ['OK']
                         })
                     }
-
                 } catch (error) {
                     console.log(error)
                 }
