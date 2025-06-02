@@ -8,6 +8,15 @@ Projeto de desenvolvimento de um sistema **desktop** para gerenciar os atendimen
 
 ---
 
+## 🎯 Objetivo do Projeto
+
+💡 **Upgrade no PC para criação de conteúdo no YouTube.**
+
+Se quiser apoiar este projeto, qualquer ajuda é bem-vinda! 🙏  
+📌 **Chave PIX:** `6ba1c342-ccdd-4896-a1d3-d50cf0925`
+
+---
+
 ## 📌 Descrição
 
 O **Tec_Sanches** é um sistema de gerenciamento interno voltado para controle de clientes, ordens de serviço e relatórios. Criado com o objetivo de otimizar os processos da minha assistência técnica, o projeto oferece:
@@ -44,3 +53,5 @@ O **Tec_Sanches** é um sistema de gerenciamento interno voltado para controle d
 
 ### Impressão de Ordem de Serviço
 ![Ordem de Serviço Impressa](/src/public/img/OrdemService.png)
+
+
