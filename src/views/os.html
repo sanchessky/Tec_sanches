@@ -5,13 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ordem de Serviço</title>
-    <!-- Bootstrap -->
     <link rel="stylesheet" href="../public/css/bootstrap.min.css">
-    <!-- CSS personalizado -->
     <link rel="stylesheet" href="../public/css/style1.css">
 
     <link rel="stylesheet" href="../public/css/style.css">
-    <!-- impedir a execução de scripts externos ou não autorizados -->
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
 </head>
 
@@ -19,24 +16,20 @@
     <div class="container">
         <form class="mt-2 row g-3" id="frmOS">
 
-            <!-- OS -->
             <div class="col-md-4">
                 <label class="form-label">Nº OS</label>
                 <input type="text" class="form-control" id="inputOS" disabled>
             </div>
 
-            <!-- Data -->
             <div class="col-md-3">
                 <label class="form-label">Data de entrada</label>
                 <input type="text" class="form-control" id="inputData" disabled>
             </div>
 
-            <!-- Buscar cliente -->
             <div class="col-md-5">
                
             </div>
  
-            <!-- Buscar cliente -->
             <div class="col-md-4">
                 <label for="inputSearchClient" class="form-label">Buscar Cliente</label>
                 <div class="input-group">
@@ -45,35 +38,29 @@
                         <img src="../public/img/search.png" alt="lupa" width="20">
                     </span>
                 </div>
-                <!-- Lista de sugestões usando classes bootstrap -->
                 <ul id="viewListSuggestion" class="list-group position-absolute w-100"></ul>
             </div>
 
-            <!-- Id -->
             <div class="col-md-3">
                 <label for="inputIdClient" class="form-label">Id do cliente</label>
                 <input type="text" class="form-control" id="inputIdClient" spellcheck="false" maxlength="15" disabled>
             </div>
 
-            <!-- Nome -->
             <div class="col-md-3">
                 <label for="inputNameClient" class="form-label">Nome</label>
                 <input type="text" class="form-control" id="inputNameClient" spellcheck="false" maxlength="30" disabled>
             </div>
 
-            <!-- Telefone -->
             <div class="col-md-2">
                 <label for="inputPhoneClient" class="form-label">Telefone</label>
                 <input type="text" class="form-control" id="inputPhoneClient" spellcheck="false" maxlength="15"
                     disabled>
             </div>            
 
-            <input type="text" id="idClient"> <!-- oculto -->
+            <input type="text" id="idClient"> 
 
-            <!-- Linha -->
             <hr class="mt-4 border border-secondary border -1">
 
-            <!-- Status -->
             <div class="col-md-4">
                 <label class="form-label">Status da OS</label>
                 <select class="form-select" id="inputStatus" required>
@@ -86,43 +73,36 @@
                 </select>
             </div>
             
-            <!-- Computador -->
             <div class="col-md-8">
                 <label class="form-label" for="inputcell">Smartphone</label>
                 <input type="text" class="form-control" id="inputcell" maxlength="30" required>
             </div>
 
-            <!-- Número de série -->
             <div class="col-md-3">
                 <label class="form-label" for="inputImei">Número do Imei</label>
                 <input type="text" class="form-control" id="inputImei" maxlength="20" >
             </div>
 
-            <!-- Problema relatado pelo cliente -->
             <div class="col-md-9">
                 <label class="form-label" for="inputProblem">Problema relatado</label>
                 <input type="text" class="form-control" id="inputProblem" maxlength="80" required>
             </div>
 
-            <!-- Tecnico especialista -->
             <div class="col-md-3">
                 <label class="form-label" for="inputSpecialist">Técnico</label>
                 <input type="text" class="form-control" id="inputSpecialist" maxlength="20" >
             </div>
 
-            <!-- Diagnóstico técnico -->
             <div class="col-md-9">
                 <label class="form-label" for="inputDiagnosis">Diagnóstico técnico</label>
                 <input type="text" class="form-control" id="inputDiagnosis" maxlength="60">
             </div>
             
-            <!-- Peças -->
             <div class="col-md-9">
                 <label class="form-label" for="inputParts">Peças</label>
                 <input type="text" class="form-control" id="inputParts" maxlength="80">
             </div>
 
-            <!-- Valor do serviço -->
             <div class="col-md-3">
                 <label class="form-label" for="inputTotal">Valor</label>
                 <input type="text" class="form-control" id="inputTotal" maxlength="20" >
@@ -139,7 +119,6 @@
 
     </div>
 
-    <!-- Bootstrap -->
     <script src="../public/js/bootstrap.min.js"></script>
 
     <script src="rendererOS.js"></script>

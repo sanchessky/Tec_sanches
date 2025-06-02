@@ -7,7 +7,6 @@
     border: 10px solid #aa1717;
     cursor: pointer;
 }
-/* roda pé*/
 footer {
     width: 100%;
     height: 50px;
@@ -24,7 +23,6 @@ footer p {
     
     
 }
-/* logo*/
 #logo {
     position: fixed;
     bottom: 40px;
@@ -33,7 +31,6 @@ footer p {
 
    
 }
-/*ocultado o campo id do cliente*/
 #idClient {
     display: none;
 }
@@ -46,7 +43,6 @@ footer p {
     cursor: pointer; 
     margin-left: 10px;
  }
-/* Lista de sugestões OS */
 #viewListSuggestion {
     z-index: 2;
     max-width: 301px;
@@ -56,7 +52,6 @@ footer p {
     background-color: #E0F0FF;
 }
 
-/* Dados do cliente - OS */
 #inputSearchClient, #viewListSuggestion, #inputIdClient, #inputNameClient, #inputPhoneClient {
     font-size: 0.9em;
 }

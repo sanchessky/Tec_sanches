@@ -6,7 +6,6 @@ function obterData() {
         month: 'long',
         day: 'numeric'
     }
-    return dataAtual.toLocaleDateString('pt-BR',options)
+    return dataAtual.toLocaleDateString('pt-BR', options)
 }
-//executar a função
 document.getElementById('dataAtual').innerHTML = obterData()

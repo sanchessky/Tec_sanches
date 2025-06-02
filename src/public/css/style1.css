@@ -1,10 +1,6 @@
-/* Ocultar a lupa (span dentro de input-group) */
 .input-group-text {
     display: none;
 }
-
-
-
 
 h1 {
     text-align: center;
