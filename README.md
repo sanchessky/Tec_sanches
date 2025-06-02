@@ -67,7 +67,7 @@ Acesse o site oficial:
 Baixe o MongoDB Community Server e instale com a opção de **"Install MongoDB as a Service"** ativada (instalação padrão).  
 Após instalar, ele inicia automaticamente.
 
-### Instalação do sistema assisTI
+### Instalação do sistema Tec_sanches
 
 Em **Releases**, faça o download da última versão (.exe) disponibilizada e execute no computador.
 
