@@ -950,6 +950,12 @@ ipcMain.on('print-os', async (event) => {
                         doc.text(String(dataOS.id), 83, 45) //x=14, y=45
                         doc.setFontSize(12)
 
+                        //imagem 
+                        const imageMarc = path.join(__dirname, 'src', 'public', 'img', 'marcartela.png')
+                        const imageBase1 = fs.readFileSync(imageMarc, { encoding: 'base64' })
+                        doc.addImage(imageBase1, 'PNG', 14, 85)
+                        
+
                         // Extração dos dados do cliente vinculado a OS
                         dataClient.forEach((c) => {
                             doc.text("Cliente:", 14, 65),
@@ -962,8 +968,7 @@ ipcMain.on('print-os', async (event) => {
                               doc.text("Problema:", 62, 80),
                               doc.text("Assinatura:___________________ ", 30, 230),
                               doc.text("CPF:", 120, 230),
-                              doc.text(c.cpfCliente, 130, 230),
-                              doc.text("Senha:\nO O O O\nO O O O\nO O O O\nO O O O", 14, 100)
+                              doc.text(c.cpfCliente, 130, 230)
                               
                             //...
                         })
